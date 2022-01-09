@@ -1,74 +1,72 @@
-In file included from ../vector_tests/begin().cpp:2:
+In file included from ../vector_tests/end().cpp:2:
 In file included from ../vector_tests/__service.ipp:3:
-../vector_tests/../../../Vector.hpp:285:8: error: overloaded 'operator==' must be a binary operator (has 3 parameters)
-                bool    operator== (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
-                        ^
-../vector_tests/../../../Vector.hpp:291:8: error: overloaded 'operator!=' must be a binary operator (has 3 parameters)
-                bool    operator!= (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
-                        ^
-../vector_tests/../../../Vector.hpp:297:8: error: overloaded 'operator<' must be a binary operator (has 3 parameters)
-                bool    operator<  (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
-                        ^
-../vector_tests/../../../Vector.hpp:303:8: error: overloaded 'operator<=' must be a binary operator (has 3 parameters)
-                bool    operator<= (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
-                        ^
-../vector_tests/../../../Vector.hpp:309:8: error: overloaded 'operator>' must be a binary operator (has 3 parameters)
-                bool    operator>  (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
-                        ^
-../vector_tests/../../../Vector.hpp:315:8: error: overloaded 'operator>=' must be a binary operator (has 3 parameters)
-                bool    operator>= (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
-                        ^
-../vector_tests/../../../Vector.hpp:322:30: error: overloaded 'operator+' must be a unary or binary operator (has 3 parameters)
-                reverse_iterator<Iterator>      operator+ (
-                                                ^
-../vector_tests/../../../Vector.hpp:330:56: error: overloaded 'operator-' must be a unary or binary operator (has 3 parameters)
-                typename reverse_iterator<Iterator>::difference_type    operator- (
+../vector_tests/../../../Vector.hpp:284:3: error: 'friend' used outside of class
+                friend bool     operator== (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
+                ^
+../vector_tests/../../../Vector.hpp:290:3: error: 'friend' used outside of class
+                friend bool     operator!= (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
+                ^
+../vector_tests/../../../Vector.hpp:296:3: error: 'friend' used outside of class
+                friend bool     operator<  (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
+                ^
+../vector_tests/../../../Vector.hpp:302:3: error: 'friend' used outside of class
+                friend bool     operator<= (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
+                ^
+../vector_tests/../../../Vector.hpp:308:3: error: 'friend' used outside of class
+                friend bool     operator>  (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
+                ^
+../vector_tests/../../../Vector.hpp:314:3: error: 'friend' used outside of class
+                friend bool     operator>= (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
+                ^
+../vector_tests/../../../Vector.hpp:321:3: error: 'friend' used outside of class
+                friend reverse_iterator<Iterator>       operator+ (
+                ^
+../vector_tests/../../../Vector.hpp:329:3: error: 'friend' used outside of class
+                friend typename reverse_iterator<Iterator>::difference_type     operator- (
+                ^
+../vector_tests/../../../Vector.hpp:350:19: error: expected member name or ';' after declaration specifiers
+                typedef iterator<const value_type>                      const_iterator;///////////////////////////////
+                ~~~~~~~~~~~~~~~~^
+../vector_tests/../../../Vector.hpp:352:27: error: expected member name or ';' after declaration specifiers
+                typedef reverse_iterator<const_iterator>        const_reverse_iterator;
+                ~~~~~~~~~~~~~~~~~~~~~~~~^
+../vector_tests/../../../Vector.hpp:443:3: error: unknown type name 'const_iterator'
+                const_iterator                  begin() const { return const_iterator(this->_begin); }
+                ^
+../vector_tests/../../../Vector.hpp:445:3: error: unknown type name 'const_iterator'
+                const_iterator                  end() const { return const_iterator(this->_begin + this->_size); }
+                ^
+../vector_tests/../../../Vector.hpp:447:3: error: unknown type name 'const_reverse_iterator'; did you mean 'reverse_iterator'?
+                const_reverse_iterator  rbegin() const { return const_reverse_iterator(end()); }
+                ^~~~~~~~~~~~~~~~~~~~~~
+                reverse_iterator
+../vector_tests/../../../Vector.hpp:351:40: note: 'reverse_iterator' declared here
+                typedef reverse_iterator<iterator>                      reverse_iterator;
                                                                         ^
-../vector_tests/../../../Vector.hpp:352:20: error: no template named 'reverse_iterator' in namespace 'ft'; did you mean simply 'reverse_iterator'?
-                typedef typename ft::reverse_iterator<iterator>                 reverse_iterator;
-                                 ^~~~~~~~~~~~~~~~~~~~
-                                 reverse_iterator
-../vector_tests/../../../Vector.hpp:191:34: note: 'reverse_iterator' declared here
-        template <class iterator> class reverse_iterator
-                                        ^
-../vector_tests/../../../Vector.hpp:353:20: error: no template named 'reverse_iterator' in namespace 'ft'; did you mean '::reverse_iterator'?
-                typedef typename ft::reverse_iterator<const_iterator>   const_reverse_iterator;
-                                 ^~~~~~~~~~~~~~~~~~~~
-                                 ::reverse_iterator
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/iterator:650:28: note: '::reverse_iterator' declared here
-class _LIBCPP_TEMPLATE_VIS reverse_iterator
-                           ^
-In file included from ../vector_tests/begin().cpp:2:
-In file included from ../vector_tests/__service.ipp:3:
-../vector_tests/../../../Vector.hpp:698:9: error: overloaded 'operator==' must be a binary operator (has 3 parameters)
-                        bool    operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-                                ^
-../vector_tests/../../../Vector.hpp:706:9: error: overloaded 'operator!=' must be a binary operator (has 3 parameters)
-                        bool    operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-                                ^
-../vector_tests/../../../Vector.hpp:712:9: error: overloaded 'operator<' must be a binary operator (has 3 parameters)
-                        bool    operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-                                ^
-../vector_tests/../../../Vector.hpp:718:9: error: overloaded 'operator<=' must be a binary operator (has 3 parameters)
-                        bool    operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-                                ^
-../vector_tests/../../../Vector.hpp:724:9: error: overloaded 'operator>' must be a binary operator (has 3 parameters)
-                        bool    operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-                                ^
-../vector_tests/../../../Vector.hpp:730:9: error: overloaded 'operator>=' must be a binary operator (has 3 parameters)
-                        bool    operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-                                ^
-../vector_tests/../../../Vector.hpp:111:22: error: member initializer 'ptr' does not name a non-static data member or base class
-                const_iterator() : ptr(nullptr) {}
-                                   ^~~~~~~~~~~~
-../vector_tests/../../../Vector.hpp:114:49: error: member initializer 'ptr' does not name a non-static data member or base class
-                const_iterator(const const_iterator& other) : ptr(other.ptr) {}
-                                                              ^~~~~~~~~~~~~~
-../vector_tests/../../../Vector.hpp:182:2: error: expected expression
-        private:
-        ^
+../vector_tests/../../../Vector.hpp:449:3: error: unknown type name 'const_reverse_iterator'; did you mean 'reverse_iterator'?
+                const_reverse_iterator  rend() const { return const_reverse_iterator(begin()); }
+                ^~~~~~~~~~~~~~~~~~~~~~
+                reverse_iterator
+../vector_tests/../../../Vector.hpp:351:40: note: 'reverse_iterator' declared here
+                typedef reverse_iterator<iterator>                      reverse_iterator;
+                                                                        ^
+../vector_tests/../../../Vector.hpp:697:4: error: 'friend' used outside of class
+                        friend bool     operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+                        ^
+../vector_tests/../../../Vector.hpp:705:4: error: 'friend' used outside of class
+                        friend bool     operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+                        ^
+../vector_tests/../../../Vector.hpp:711:4: error: 'friend' used outside of class
+                        friend bool     operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+                        ^
+../vector_tests/../../../Vector.hpp:717:4: error: 'friend' used outside of class
+                        friend bool     operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+                        ^
+../vector_tests/../../../Vector.hpp:723:4: error: 'friend' used outside of class
+                        friend bool     operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+                        ^
 fatal error: too many errors emitted, stopping now [-ferror-limit=]
 20 errors generated.
-ed.
-rror-limit=]
-20 errors generated.
+.
+.
+rrors generated.
