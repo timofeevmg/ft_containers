@@ -1,0 +1,74 @@
+In file included from ../vector_tests/begin().cpp:2:
+In file included from ../vector_tests/__service.ipp:3:
+../vector_tests/../../../Vector.hpp:285:8: error: overloaded 'operator==' must be a binary operator (has 3 parameters)
+                bool    operator== (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
+                        ^
+../vector_tests/../../../Vector.hpp:291:8: error: overloaded 'operator!=' must be a binary operator (has 3 parameters)
+                bool    operator!= (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
+                        ^
+../vector_tests/../../../Vector.hpp:297:8: error: overloaded 'operator<' must be a binary operator (has 3 parameters)
+                bool    operator<  (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
+                        ^
+../vector_tests/../../../Vector.hpp:303:8: error: overloaded 'operator<=' must be a binary operator (has 3 parameters)
+                bool    operator<= (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
+                        ^
+../vector_tests/../../../Vector.hpp:309:8: error: overloaded 'operator>' must be a binary operator (has 3 parameters)
+                bool    operator>  (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
+                        ^
+../vector_tests/../../../Vector.hpp:315:8: error: overloaded 'operator>=' must be a binary operator (has 3 parameters)
+                bool    operator>= (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
+                        ^
+../vector_tests/../../../Vector.hpp:322:30: error: overloaded 'operator+' must be a unary or binary operator (has 3 parameters)
+                reverse_iterator<Iterator>      operator+ (
+                                                ^
+../vector_tests/../../../Vector.hpp:330:56: error: overloaded 'operator-' must be a unary or binary operator (has 3 parameters)
+                typename reverse_iterator<Iterator>::difference_type    operator- (
+                                                                        ^
+../vector_tests/../../../Vector.hpp:352:20: error: no template named 'reverse_iterator' in namespace 'ft'; did you mean simply 'reverse_iterator'?
+                typedef typename ft::reverse_iterator<iterator>                 reverse_iterator;
+                                 ^~~~~~~~~~~~~~~~~~~~
+                                 reverse_iterator
+../vector_tests/../../../Vector.hpp:191:34: note: 'reverse_iterator' declared here
+        template <class iterator> class reverse_iterator
+                                        ^
+../vector_tests/../../../Vector.hpp:353:20: error: no template named 'reverse_iterator' in namespace 'ft'; did you mean '::reverse_iterator'?
+                typedef typename ft::reverse_iterator<const_iterator>   const_reverse_iterator;
+                                 ^~~~~~~~~~~~~~~~~~~~
+                                 ::reverse_iterator
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/iterator:650:28: note: '::reverse_iterator' declared here
+class _LIBCPP_TEMPLATE_VIS reverse_iterator
+                           ^
+In file included from ../vector_tests/begin().cpp:2:
+In file included from ../vector_tests/__service.ipp:3:
+../vector_tests/../../../Vector.hpp:698:9: error: overloaded 'operator==' must be a binary operator (has 3 parameters)
+                        bool    operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+                                ^
+../vector_tests/../../../Vector.hpp:706:9: error: overloaded 'operator!=' must be a binary operator (has 3 parameters)
+                        bool    operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+                                ^
+../vector_tests/../../../Vector.hpp:712:9: error: overloaded 'operator<' must be a binary operator (has 3 parameters)
+                        bool    operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+                                ^
+../vector_tests/../../../Vector.hpp:718:9: error: overloaded 'operator<=' must be a binary operator (has 3 parameters)
+                        bool    operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+                                ^
+../vector_tests/../../../Vector.hpp:724:9: error: overloaded 'operator>' must be a binary operator (has 3 parameters)
+                        bool    operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+                                ^
+../vector_tests/../../../Vector.hpp:730:9: error: overloaded 'operator>=' must be a binary operator (has 3 parameters)
+                        bool    operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+                                ^
+../vector_tests/../../../Vector.hpp:111:22: error: member initializer 'ptr' does not name a non-static data member or base class
+                const_iterator() : ptr(nullptr) {}
+                                   ^~~~~~~~~~~~
+../vector_tests/../../../Vector.hpp:114:49: error: member initializer 'ptr' does not name a non-static data member or base class
+                const_iterator(const const_iterator& other) : ptr(other.ptr) {}
+                                                              ^~~~~~~~~~~~~~
+../vector_tests/../../../Vector.hpp:182:2: error: expected expression
+        private:
+        ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+20 errors generated.
+ed.
+rror-limit=]
+20 errors generated.
