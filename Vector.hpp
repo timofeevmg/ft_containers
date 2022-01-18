@@ -4,334 +4,10 @@
 #include <memory>
 #include <stdexcept>
 
-#include "utilities.hpp"
+#include "vIterator.hpp"
 
 namespace ft
 {
-///////////////////////////////////////////////////////////////////////////////
-//                     RANDOM ACCESS ITERATOR FOR VECTOR                     //
-///////////////////////////////////////////////////////////////////////////////
-//                              ITERATOR                                     //
-///////////////////////////////////////////////////////////////////////////////
-	template <typename P> class iterator
-	{
-	public:
-		typedef typename iterator_traits<P *>::value_type			value_type;
-		typedef typename iterator_traits<P *>::difference_type		difference_type;
-		typedef typename iterator_traits<P *>::pointer				pointer;
-		typedef typename iterator_traits<P *>::reference			reference;
-		typedef typename iterator_traits<P *>::iterator_category	iterator_category;
-
-		iterator() : ptr(nullptr) {}
-		iterator(pointer _ptr) : ptr(_ptr) {}
-		iterator(const iterator& other) : ptr(other.ptr) {}
-		~iterator() {}
-		iterator&	operator= (const iterator& other)
-		{
-			this->ptr = other.ptr;
-			return *this;
-		}
-
-		friend bool	operator==(const iterator A, const iterator B) { return A.ptr == B.ptr; }
-		friend bool operator!=(const iterator A, const iterator B) { return A.ptr != B.ptr; }
-		friend bool operator<(const iterator A, const iterator B) { return A.ptr < B.ptr; }
-		friend bool operator>(const iterator A, const iterator B) { return A.ptr > B.ptr; }
-		friend bool operator<=(const iterator A, const iterator B) { return A.ptr <= B.ptr; }
-		friend bool operator>=(const iterator A, const iterator B) { return A.ptr >= B.ptr; }
-
-		reference	operator*() { return *(this->ptr); }
-		pointer		operator->() { return this->ptr; }
-
-//prefix
-		reference	operator++()
-		{
-			++this->ptr;
-			return *(this->ptr);
-		}
-//postfix
-		iterator	operator++(int)
-		{
-			iterator tmp(*this);
-			++(this->ptr);
-			return tmp;
-		}
-//prefix
-		reference	operator--()
-		{
-			--this->ptr;
-			return *(this->ptr);
-		}
-//postfix
-		iterator	operator--(int)
-		{
-			iterator tmp(*this);
-			--(this->ptr);
-			return tmp;
-		}
-
-		iterator	operator+(const difference_type& d) const 
-		{
-			iterator	tmp(this->ptr + d);
-			return tmp;
-		}
-		iterator	operator-(const difference_type& d) const 
-		{
-			iterator	tmp(this->ptr - d);
-			return tmp;
-		}
-		iterator&	operator+=(const difference_type& d)
-		{
-			this->ptr += d;
-			return *this;
-		}
-		iterator&	operator-=(const difference_type& d)
-		{
-			this->ptr -= d;
-			return *this;
-		}
-
-		reference	operator[](const difference_type& d) const { return *(this->ptr + d); }
-
-	private:
-		pointer	ptr;
-	};
-
-///////////////////////////////////////////////////////////////////////////////
-//                             CONST_ITERATOR                                //
-///////////////////////////////////////////////////////////////////////////////
-// 	template <typename P> class const_iterator
-// 	{
-// 	public:
-// 		typedef typename iterator_traits<P*>::value_type		value_type;
-// 		typedef typename iterator_traits<P*>::difference_type	difference_type;
-// 		typedef const typename iterator_traits<P*>::pointer		pointer;
-// 		typedef const typename iterator_traits<P*>::reference	reference;
-// 		typedef typename iterator_traits<P*>::iterator_category	iterator_category;
-
-// 		const_iterator() : ptr(nullptr) {;}
-// 		// const_iterator(pointer _ptr) : ptr(_ptr) {}
-// 		// const_iterator(const iterator& iter)
-// 		const_iterator(const const_iterator& other) : ptr(other.ptr) {;}
-// 		~const_iterator() {;}
-// 		const_iterator&	operator= (const const_iterator& other)
-// 		{
-// 			this->ptr = other.ptr;
-// 			return *this;
-// 		}
-
-// 		friend bool	operator==(const const_iterator A, const const_iterator B) { return A.ptr == B.ptr; }
-// 		friend bool operator!=(const const_iterator A, const const_iterator B) { return A.ptr != B.ptr; }
-// 		friend bool operator<(const const_iterator A, const const_iterator B) { return A.ptr < B.ptr; }
-// 		friend bool operator>(const const_iterator A, const const_iterator B) { return A.ptr > B.ptr; }
-// 		friend bool operator<=(const const_iterator A, const const_iterator B) { return A.ptr <= B.ptr; }
-// 		friend bool operator>=(const const_iterator A, const const_iterator B) { return A.ptr >= B.ptr; }
-
-// 		reference	operator*() { return *(this->ptr); }
-// 		pointer		operator->() { return this->ptr; }
-
-// //prefix
-// 		reference	operator++()
-// 		{
-// 			++this->ptr;
-// 			return *(this->ptr);
-// 		}
-// //postfix
-// 		const_iterator	operator++(int)
-// 		{
-// 			const_iterator tmp(*this);
-// 			++(this->ptr);
-// 			return tmp;
-// 		}
-// //prefix
-// 		reference	operator--()
-// 		{
-// 			--this->ptr;
-// 			return *(this->ptr);
-// 		}
-// //postfix
-// 		const_iterator	operator--(int)
-// 		{
-// 			const_iterator tmp(*this);
-// 			--(this->ptr);
-// 			return tmp;
-// 		}
-
-// 		const_iterator	operator+(const difference_type& d) const 
-// 		{
-// 			const_iterator	tmp(this->ptr + d);
-// 			return tmp;
-// 		}
-// 		const_iterator	operator-(const difference_type& d) const 
-// 		{
-// 			const_iterator	tmp(this->ptr - d);
-// 			return tmp;
-// 		}
-// 		const_iterator&	operator+=(const difference_type& d)
-// 		{
-// 			this->ptr += d;
-// 			return *this;
-// 		}
-// 		const_iterator&	operator-=(const difference_type& d)
-// 		{
-// 			this->ptr -= d;
-// 			return *this;
-// 		}
-
-// 		reference	operator[](const difference_type& d) const { return *(this->ptr + d);
-
-// 	private:
-// 		pointer	ptr;
-// 	};
-
-///////////////////////////////////////////////////////////////////////////////
-//                           REVERSE_ITERATOR                                //
-///////////////////////////////////////////////////////////////////////////////
-//                           MEMBER FUNCTIONS                                //
-///////////////////////////////////////////////////////////////////////////////
-	template <class Iterator> class reverse_iterator
-	{
-	public:
-		typedef Iterator												iterator_type;
-		typedef typename iterator_traits<Iterator>::iterator_category	iterator_category;
-		typedef typename iterator_traits<Iterator>::value_type			value_type;
-		typedef typename iterator_traits<Iterator>::difference_type		difference_type;
-		typedef typename iterator_traits<Iterator>::pointer				pointer;
-		typedef typename iterator_traits<Iterator>::reference			reference;
-
-// CONSTRUCTOR
-// DEFAULT
-		reverse_iterator() : base_iterator() { ;}
-// INITIALIZATION
-		explicit reverse_iterator (iterator_type it) : base_iterator(it) { ;}
-// COPY
-		template <class Iter>
-			reverse_iterator (const reverse_iterator<Iter>& rev_it)
-		{
-			this->base_iterator = rev_it.base_iterator;
-		}
-
-// BASE
-		iterator_type	base() const { return this->base_iterator; }
-
-		reference			operator*() const
-		{
-			iterator_type	tmp = this->base_iterator;
-			return (*--tmp);
-		}
-
-		reverse_iterator	operator+(difference_type n) const 
-		{
-			return reverse_iterator(this->base_iterator - n);
-		}
-
-		reverse_iterator&	operator++() 
-		{
-			--this->base_iterator;
-			return *this;
-		}
-
-		reverse_iterator	operator++(int) 
-		{
-			reverse_iterator	tmp = *this;
-			--this->base_iterator;
-			return tmp;
-		}
-
-		reverse_iterator&	operator+=(difference_type n)
-		{
-			this->base_iterator -= n;
-			return *this;
-		}
-
-		reverse_iterator	operator-(difference_type n) const
-		{
-			return reverse_iterator(this->base_iterator + n);
-		}
-
-		reverse_iterator&	operator--() 
-		{
-			++this->base_iterator;
-			return *this;
-		}
-
-		reverse_iterator	operator--(int) 
-		{
-			reverse_iterator	tmp = *this;
-			++this->base_iterator;
-			return tmp;
-		}
-
-		reverse_iterator&	operator-=(difference_type n)
-		{
-			this->base_iterator += n;
-			return *this;
-		}
-
-		pointer				operator->() const 
-		{
-			iterator_type	tmp = this->base_iterator;
-			return &(--tmp);
-		}
-
-		reference			operator[](difference_type n) const { return this->base_iterator[-n - 1]; }
-
-	private:
-		iterator_type	base_iterator;
-	};
-
-// RELATIONAL OPERATORS
-	template <class Iterator>
-		friend bool	operator== (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
-		{
-			return (lhs.base() == rhs.base());
-		}
-
-	template <class Iterator>
-		friend bool	operator!= (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
-		{
-			return (lhs.base() != rhs.base());
-		}
-
-	template <class Iterator>
-		friend bool	operator<  (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
-		{
-			return (lhs.base() > rhs.base());
-		}
-
-	template <class Iterator>
-		friend bool	operator<= (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
-		{
-			return (lhs.base() >= rhs.base());
-		}
-
-	template <class Iterator>
-		friend bool	operator>  (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
-		{
-			return (lhs.base() < rhs.base());
-		}
-
-	template <class Iterator>
-		friend bool	operator>= (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
-		{
-			return (lhs.base() <= rhs.base());
-		}
-
-// +
-	template <class Iterator> 
-		friend reverse_iterator<Iterator>	operator+ (
-			typename reverse_iterator<Iterator>::difference_type n, const reverse_iterator<Iterator>& rev_it)
-			{
-				return (reverse_iterator<Iterator>(rev_it.base() - n));
-			}
-
-// -
-	template <class Iterator>
-		friend typename reverse_iterator<Iterator>::difference_type	operator- (
-			const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
-			{
-				return (rhs.base() - lhs.base());
-			}
-
 ///////////////////////////////////////////////////////////////////////////////
 //                                VECTOR                                     //
 ///////////////////////////////////////////////////////////////////////////////
@@ -346,10 +22,10 @@ namespace ft
 		typedef typename Allocator::pointer			pointer;
 		typedef typename Allocator::const_pointer	const_pointer;
 
-		typedef iterator<value_type>				iterator;
-		typedef iterator<const value_type>			const_iterator;///////////////////////////////
-		typedef reverse_iterator<iterator>			reverse_iterator;
-		typedef reverse_iterator<const_iterator>	const_reverse_iterator;
+		typedef vIterator<value_type>				iterator;
+		typedef const vIterator<value_type>			const_iterator;
+		typedef vRevIterator<iterator>				reverse_iterator;
+		typedef vRevIterator<const_iterator>		const_reverse_iterator;
 
 		typedef typename Allocator::difference_type	difference_type;
 		typedef typename Allocator::size_type		size_type;
@@ -694,7 +370,7 @@ namespace ft
 // NON-MEMBER FUNCTION OVERLOADS
 // RELATIONAL OPERATORS
 		template <class T, class Alloc>
-			friend bool	operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+			bool	operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 		{
 			if (lhs.size() != rhs.size())
 				return false;
@@ -702,31 +378,31 @@ namespace ft
 		}
 
 		template <class T, class Alloc>
-			friend bool	operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+			bool	operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 		{
 			return !(lhs == rhs);
 		}
 
 		template <class T, class Alloc>
-			friend bool	operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+			bool	operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 		{
 			return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 		}
 
 		template <class T, class Alloc>
-			friend bool	operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+			bool	operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 		{
 			return !(rhs < lhs);
 		}
 
 		template <class T, class Alloc>
-			friend bool	operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+			bool	operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 		{
 			return (rhs < lhs);
 		}
 
 		template <class T, class Alloc>
-			friend bool	operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+			bool	operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 		{
 			return !(lhs < rhs);
 		}
