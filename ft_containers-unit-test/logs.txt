@@ -1,72 +1,36 @@
-In file included from ../vector_tests/end().cpp:2:
-In file included from ../vector_tests/__service.ipp:3:
-../vector_tests/../../../Vector.hpp:284:3: error: 'friend' used outside of class
-                friend bool     operator== (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
-                ^
-../vector_tests/../../../Vector.hpp:290:3: error: 'friend' used outside of class
-                friend bool     operator!= (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
-                ^
-../vector_tests/../../../Vector.hpp:296:3: error: 'friend' used outside of class
-                friend bool     operator<  (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
-                ^
-../vector_tests/../../../Vector.hpp:302:3: error: 'friend' used outside of class
-                friend bool     operator<= (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
-                ^
-../vector_tests/../../../Vector.hpp:308:3: error: 'friend' used outside of class
-                friend bool     operator>  (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
-                ^
-../vector_tests/../../../Vector.hpp:314:3: error: 'friend' used outside of class
-                friend bool     operator>= (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
-                ^
-../vector_tests/../../../Vector.hpp:321:3: error: 'friend' used outside of class
-                friend reverse_iterator<Iterator>       operator+ (
-                ^
-../vector_tests/../../../Vector.hpp:329:3: error: 'friend' used outside of class
-                friend typename reverse_iterator<Iterator>::difference_type     operator- (
-                ^
-../vector_tests/../../../Vector.hpp:350:19: error: expected member name or ';' after declaration specifiers
-                typedef iterator<const value_type>                      const_iterator;///////////////////////////////
-                ~~~~~~~~~~~~~~~~^
-../vector_tests/../../../Vector.hpp:352:27: error: expected member name or ';' after declaration specifiers
-                typedef reverse_iterator<const_iterator>        const_reverse_iterator;
-                ~~~~~~~~~~~~~~~~~~~~~~~~^
-../vector_tests/../../../Vector.hpp:443:3: error: unknown type name 'const_iterator'
-                const_iterator                  begin() const { return const_iterator(this->_begin); }
-                ^
-../vector_tests/../../../Vector.hpp:445:3: error: unknown type name 'const_iterator'
-                const_iterator                  end() const { return const_iterator(this->_begin + this->_size); }
-                ^
-../vector_tests/../../../Vector.hpp:447:3: error: unknown type name 'const_reverse_iterator'; did you mean 'reverse_iterator'?
-                const_reverse_iterator  rbegin() const { return const_reverse_iterator(end()); }
-                ^~~~~~~~~~~~~~~~~~~~~~
-                reverse_iterator
-../vector_tests/../../../Vector.hpp:351:40: note: 'reverse_iterator' declared here
-                typedef reverse_iterator<iterator>                      reverse_iterator;
-                                                                        ^
-../vector_tests/../../../Vector.hpp:449:3: error: unknown type name 'const_reverse_iterator'; did you mean 'reverse_iterator'?
-                const_reverse_iterator  rend() const { return const_reverse_iterator(begin()); }
-                ^~~~~~~~~~~~~~~~~~~~~~
-                reverse_iterator
-../vector_tests/../../../Vector.hpp:351:40: note: 'reverse_iterator' declared here
-                typedef reverse_iterator<iterator>                      reverse_iterator;
-                                                                        ^
-../vector_tests/../../../Vector.hpp:697:4: error: 'friend' used outside of class
-                        friend bool     operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+../vector_tests/begin().cpp:21:17: error: indirection requires pointer operand ('int' invalid)
+    v.push_back(*++vector.begin());
+                ^~~~~~~~~~~~~~~~~
+../vector_tests/begin().cpp:28:59: note: in instantiation of function template specialization 'begin_test<int>' requested here
+    exit(run_vector_unit_test<int>("begin()", begin_test, begin_test));
+                                                          ^
+1 error generated.
+rators.cpp:32:17: error: indirection requires pointer operand ('int' invalid)
+    v.push_back(*(--it));
+                ^~~~~~~
+2 errors generated.
+d::__1::__wrap_iter<int *>]
+        template <class T> struct is_integral : public integral_constant<T, false> {};
+                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+../vector_tests/../../../Vector.hpp:63:26: note: in instantiation of template class 'ft::is_integral<std::__1::__wrap_iter<int *> >' requested here
+                                        typename enable_if<!is_integral<InputIterator>::value>::type last, 
+                                                            ^
+../vector_tests/constructor(std iterators).cpp:26:15: note: while substituting deduced template arguments into function template 'vector' [with InputIterator = std::__1::__wrap_iter<int *>]
+        _vector<int> tmp2(tmp.begin(), tmp.end());
+                     ^
+../vector_tests/constructor(std iterators).cpp:26:15: error: no matching constructor for initialization of 'ft::vector<int>'
+        _vector<int> tmp2(tmp.begin(), tmp.end());
+                     ^    ~~~~~~~~~~~~~~~~~~~~~~
+../vector_tests/../../../Vector.hpp:48:12: note: candidate constructor not viable: no known conversion from 'std::__1::vector<int, std::__1::allocator<int> >::iterator' (aka '__wrap_iter<int *>') to 'ft::vector<int, std::__1::allocator<int> >::size_type' (aka 'unsigned long') for 1st argument
+                explicit vector (size_type n, const value_type& val = value_type(), 
+                         ^
+../vector_tests/../../../Vector.hpp:62:4: note: candidate template ignored: substitution failure [with InputIterator = std::__1::__wrap_iter<int *>]
+                        vector (InputIterator first, 
                         ^
-../vector_tests/../../../Vector.hpp:705:4: error: 'friend' used outside of class
-                        friend bool     operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-                        ^
-../vector_tests/../../../Vector.hpp:711:4: error: 'friend' used outside of class
-                        friend bool     operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-                        ^
-../vector_tests/../../../Vector.hpp:717:4: error: 'friend' used outside of class
-                        friend bool     operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-                        ^
-../vector_tests/../../../Vector.hpp:723:4: error: 'friend' used outside of class
-                        friend bool     operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-                        ^
-fatal error: too many errors emitted, stopping now [-ferror-limit=]
-20 errors generated.
-.
-.
-rrors generated.
+../vector_tests/../../../Vector.hpp:40:12: note: candidate constructor not viable: allows at most single argument 'alloc', but 2 arguments were provided
+                explicit vector (const allocator_type& alloc = allocator_type()) : 
+                         ^
+../vector_tests/../../../Vector.hpp:76:3: note: candidate constructor not viable: requires single argument 'other', but 2 arguments were provided
+                vector (const vector& other)
+                ^
+2 errors generated.
