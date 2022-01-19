@@ -138,7 +138,7 @@ namespace ft
 		void		resize (size_type n, value_type val = value_type())
 		{
 			if (n > this->_capacity)
-				this->reallocVector(n);
+				(n < 2 * this->_capacity) ? this->reallocVector(2 * this->_capacity) : this->reallocVector(n);
 			while (n > this->_size)
 				push_back(val);
 			while(n < this->_size)

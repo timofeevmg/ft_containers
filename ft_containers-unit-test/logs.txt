@@ -1,1 +1,13 @@
-
+../vector_tests/insert(std iterators).cpp:28:9: error: no matching member function for call to 'insert'
+        vector.insert(vector.begin(), tmp.begin(), tmp.end());
+        ~~~~~~~^~~~~~
+../vector_tests/insert(std iterators).cpp:40:75: note: in instantiation of function template specialization 'insert_std_test<int>' requested here
+        exit(run_vector_unit_test<int>("insert(std iterators)", insert_std_test, insert_std_test));
+                                                                                 ^
+../vector_tests/../../../Vector.hpp:261:9: note: candidate function not viable: no known conversion from 'std::__1::vector<int, std::__1::allocator<int> >::iterator' (aka '__wrap_iter<int *>') to 'ft::vector::size_type' (aka 'unsigned long') for 2nd argument
+                void            insert (iterator position, size_type n, const value_type& val)
+                                ^
+../vector_tests/../../../Vector.hpp:235:12: note: candidate function not viable: requires 2 arguments, but 3 were provided
+                iterator        insert (iterator position, const value_type& val)
+                                ^
+1 error generated.
