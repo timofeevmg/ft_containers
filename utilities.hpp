@@ -42,10 +42,10 @@ namespace ft
 ///////////////////////////////////////////////////////////////////////////////
 //                              IS_INTEGRAL                                  //
 ///////////////////////////////////////////////////////////////////////////////
-	template <class T, T v>
+	template <class T, bool v>
 		struct integral_constant
 		{
-			static const T					value = v;
+			static const bool				value = v;
 			typedef T						value_type;
 			typedef integral_constant<T, v>	type;
 			operator T() const { return v; }
@@ -109,11 +109,25 @@ namespace ft
 		}
 		return (first1 == last1) && (first2 != last2);
 	}
+
+///////////////////////////////////////////////////////////////////////////////
+//                                CONDITIONAL                                //
+///////////////////////////////////////////////////////////////////////////////
+	template<bool B, class T, class F>
+		struct conditional
+		{
+			typedef T type;
+		};
 	
+	template<class T, class F>
+		struct conditional<false, T, F>
+		{
+			typedef F type;
+		};
 };
 
-#endif
 
+#endif
 
 //std::pair
 //std::make_pair
