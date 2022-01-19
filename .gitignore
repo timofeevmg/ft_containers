@@ -1,3 +1,8 @@
 .DS_Store
-ft_containers-unit-test/
-.gitignore
+ft_containers-unit-test
+.vscode
+vtest
+my_main
+my_main.dSYM
+vtest
+vtest.dSYM

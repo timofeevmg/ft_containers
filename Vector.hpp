@@ -1,6 +1,7 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 
+#include <cstddef>
 #include <memory>
 #include <stdexcept>
 
@@ -15,22 +16,28 @@ namespace ft
 		class vector
 	{
 	public:
-		typedef typename Allocator::value_type		value_type;
-		typedef Allocator							allocator_type;
-		typedef typename Allocator::reference		reference;
-		typedef typename Allocator::const_reference	const_reference;
-		typedef typename Allocator::pointer			pointer;
-		typedef typename Allocator::const_pointer	const_pointer;
+		typedef T											value_type;
+		typedef Allocator									allocator_type;
+		typedef typename allocator_type::reference			reference;
+		typedef typename allocator_type::const_reference	const_reference;
+		typedef typename allocator_type::pointer			pointer;
+		typedef typename allocator_type::const_pointer	const_pointer;
+
+		typedef ptrdiff_t	difference_type;
+		typedef size_t		size_type;
 
 		typedef vIterator<value_type>				iterator;
-		typedef const vIterator<value_type>			const_iterator;
+		typedef const_vIterator<value_type>			const_iterator;
 		typedef vRevIterator<iterator>				reverse_iterator;
 		typedef vRevIterator<const_iterator>		const_reverse_iterator;
 
-		typedef typename Allocator::difference_type	difference_type;
-		typedef typename Allocator::size_type		size_type;
+	private:
+		pointer		_begin;
+		size_type	_size;
+		size_type	_capacity;
+		Allocator	A;
 
-
+	public:
 ///////////////////////////////////////////////////////////////////////////////
 //                           MEMBER FUNCTIONS                                //
 ///////////////////////////////////////////////////////////////////////////////
@@ -41,12 +48,13 @@ namespace ft
 		{
 			this->_begin = A.allocate(this->_capacity);
 		}
+// explicit - not to implicitly convert data types
 
 
 // FILL
 		explicit vector (size_type n, const value_type& val = value_type(), 
 						const allocator_type& alloc = allocator_type()) : 
-						_begin(nullptr), _size(n), _capacity(n * 2), A(alloc)
+						_begin(nullptr), _size(n), _capacity(n), A(alloc)
 		{
 			this->_begin = A.allocate(this->_capacity);
 
@@ -58,9 +66,9 @@ namespace ft
 
 // RANGE
 		template <class InputIterator>
-			vector (InputIterator first, 
-					typename enable_if<!is_integral<InputIterator>::value>::type last, 
-					const allocator_type& alloc = allocator_type()) : 
+			vector (InputIterator first, InputIterator last,
+					const allocator_type& alloc = allocator_type(), 
+					typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0) : 
 					_begin(nullptr), A(alloc)
 		{
 			this->_size = last - first;
@@ -72,9 +80,12 @@ namespace ft
 
 
 // COPY
-		vector (const vector& other)
+		vector (const vector& other) : 
+			_begin(nullptr), _size(other._size), _capacity(other._capacity), A(other.A) 
 		{
-			*this = other;
+			this->_begin = A.allocate(this->_capacity);
+			for (size_type i = 0; i < this->_size; ++i)
+				A.construct(this->_begin + i, other[i]);
 		}
 
 
@@ -87,8 +98,7 @@ namespace ft
 				for (size_type i = 0; i < this->_size; ++i)
 					A.destroy(p - i);
 			}
-			if (this->_capacity)
-				A.deallocate(this->_begin, this->_capacity);
+			A.deallocate(this->_begin, this->_capacity);
 		}
 
 
@@ -189,8 +199,8 @@ namespace ft
 // ASSIGN
 // RANGE
 		template <class InputIterator>
-			void	assign (InputIterator first, 
-							typename enable_if<!is_integral<InputIterator>::value>::type last)
+			void	assign (InputIterator first, InputIterator last, 
+							typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
 		{
 			if (first > last)
 				return;
@@ -279,7 +289,7 @@ namespace ft
 			}
 			size_type	j = 0;
 			for (; j < n; ++j)
-				A.construct(tmp + i + j, *(start + i + j));
+				A.construct(tmp + i + j, val);
 			i += j;
 			for (; i < end - position; ++i)
 			{
@@ -360,11 +370,6 @@ namespace ft
 // ALLOCATOR
 		allocator_type	get_allocator() const { return this->A; }
 
-	private:
-		pointer			_begin;
-		size_type		_size;
-		size_type		_capacity;
-		allocator_type	A;
 	};
 
 // NON-MEMBER FUNCTION OVERLOADS

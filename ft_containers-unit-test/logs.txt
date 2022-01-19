@@ -1,36 +1,231 @@
-../vector_tests/begin().cpp:21:17: error: indirection requires pointer operand ('int' invalid)
-    v.push_back(*++vector.begin());
-                ^~~~~~~~~~~~~~~~~
-../vector_tests/begin().cpp:28:59: note: in instantiation of function template specialization 'begin_test<int>' requested here
-    exit(run_vector_unit_test<int>("begin()", begin_test, begin_test));
-                                                          ^
-1 error generated.
-rators.cpp:32:17: error: indirection requires pointer operand ('int' invalid)
-    v.push_back(*(--it));
-                ^~~~~~~
-2 errors generated.
-d::__1::__wrap_iter<int *>]
-        template <class T> struct is_integral : public integral_constant<T, false> {};
-                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-../vector_tests/../../../Vector.hpp:63:26: note: in instantiation of template class 'ft::is_integral<std::__1::__wrap_iter<int *> >' requested here
-                                        typename enable_if<!is_integral<InputIterator>::value>::type last, 
+In file included from ../map_tests/compare class.cpp:2:
+../map_tests/__service.ipp:3:10: error: expected "FILENAME" or <FILENAME>
+#include MAP
+         ^
+../map_tests/__service.ipp:19:14: error: no template named '_map'; did you mean 'map'?
+void fillMap(_map<T, V, C> &mp) {
+             ^~~~
+             map
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/map:899:28: note: 'map' declared here
+class _LIBCPP_TEMPLATE_VIS map
+                           ^
+In file included from ../map_tests/compare class.cpp:2:
+../map_tests/__service.ipp:19:6: error: redefinition of 'fillMap'
+void fillMap(_map<T, V, C> &mp) {
+     ^
+../map_tests/__service.ipp:6:6: note: previous definition is here
+void fillMap(std::map<T, V, C> &mp) {
+     ^
+../map_tests/__service.ipp:20:12: error: use of undeclared identifier '_make_pair'; did you mean 'make_pair'?
+        mp.insert(_make_pair(16, 3));
+                  ^~~~~~~~~~
+                  make_pair
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/utility:679:1: note: 'make_pair' declared here
+make_pair(_T1 __x, _T2 __y)
+^
+In file included from ../map_tests/compare class.cpp:2:
+../map_tests/__service.ipp:21:12: error: use of undeclared identifier '_make_pair'; did you mean 'make_pair'?
+        mp.insert(_make_pair(8, 3));
+                  ^~~~~~~~~~
+                  make_pair
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/utility:679:1: note: 'make_pair' declared here
+make_pair(_T1 __x, _T2 __y)
+^
+In file included from ../map_tests/compare class.cpp:2:
+../map_tests/__service.ipp:22:12: error: use of undeclared identifier '_make_pair'; did you mean 'make_pair'?
+        mp.insert(_make_pair(23, 3));
+                  ^~~~~~~~~~
+                  make_pair
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/utility:679:1: note: 'make_pair' declared here
+make_pair(_T1 __x, _T2 __y)
+^
+In file included from ../map_tests/compare class.cpp:2:
+../map_tests/__service.ipp:23:12: error: use of undeclared identifier '_make_pair'; did you mean 'make_pair'?
+        mp.insert(_make_pair(7, 3));
+                  ^~~~~~~~~~
+                  make_pair
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/utility:679:1: note: 'make_pair' declared here
+make_pair(_T1 __x, _T2 __y)
+^
+In file included from ../map_tests/compare class.cpp:2:
+../map_tests/__service.ipp:24:12: error: use of undeclared identifier '_make_pair'; did you mean 'make_pair'?
+        mp.insert(_make_pair(19, 3));
+                  ^~~~~~~~~~
+                  make_pair
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/utility:679:1: note: 'make_pair' declared here
+make_pair(_T1 __x, _T2 __y)
+^
+In file included from ../map_tests/compare class.cpp:2:
+../map_tests/__service.ipp:25:12: error: use of undeclared identifier '_make_pair'; did you mean 'make_pair'?
+        mp.insert(_make_pair(29, 3));
+                  ^~~~~~~~~~
+                  make_pair
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/utility:679:1: note: 'make_pair' declared here
+make_pair(_T1 __x, _T2 __y)
+^
+In file included from ../map_tests/compare class.cpp:2:
+../map_tests/__service.ipp:26:12: error: use of undeclared identifier '_make_pair'; did you mean 'make_pair'?
+        mp.insert(_make_pair(41, 3));
+                  ^~~~~~~~~~
+                  make_pair
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/utility:679:1: note: 'make_pair' declared here
+make_pair(_T1 __x, _T2 __y)
+^
+In file included from ../map_tests/compare class.cpp:2:
+../map_tests/__service.ipp:27:12: error: use of undeclared identifier '_make_pair'; did you mean 'make_pair'?
+        mp.insert(_make_pair(4, 3));
+                  ^~~~~~~~~~
+                  make_pair
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/utility:679:1: note: 'make_pair' declared here
+make_pair(_T1 __x, _T2 __y)
+^
+In file included from ../map_tests/compare class.cpp:2:
+../map_tests/__service.ipp:28:12: error: use of undeclared identifier '_make_pair'; did you mean 'make_pair'?
+        mp.insert(_make_pair(11, 3));
+                  ^~~~~~~~~~
+                  make_pair
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/utility:679:1: note: 'make_pair' declared here
+make_pair(_T1 __x, _T2 __y)
+^
+In file included from ../map_tests/compare class.cpp:2:
+../map_tests/__service.ipp:35:2: error: no template named '_map'; did you mean 'map'?
+        _map<int, int> mp1, mp2, mp3, mp4;
+        ^~~~
+        map
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/map:957:43: note: 'map' declared here
+        friend class _LIBCPP_TEMPLATE_VIS map;
+                                          ^
+In file included from ../map_tests/compare class.cpp:2:
+../map_tests/__service.ipp:36:2: error: no template named '_map'; did you mean 'map'?
+        _map<string, string> mp5, mp6, mp7, mp8, mp9;
+        ^~~~
+        map
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/map:957:43: note: 'map' declared here
+        friend class _LIBCPP_TEMPLATE_VIS map;
+                                          ^
+In file included from ../map_tests/compare class.cpp:2:
+../map_tests/__service.ipp:39:47: error: use of undeclared identifier 'ft'
+                m1.insert(std::make_pair(2, 3)); mp1.insert(ft::make_pair(2, 3));
                                                             ^
-../vector_tests/constructor(std iterators).cpp:26:15: note: while substituting deduced template arguments into function template 'vector' [with InputIterator = std::__1::__wrap_iter<int *>]
-        _vector<int> tmp2(tmp.begin(), tmp.end());
-                     ^
-../vector_tests/constructor(std iterators).cpp:26:15: error: no matching constructor for initialization of 'ft::vector<int>'
-        _vector<int> tmp2(tmp.begin(), tmp.end());
-                     ^    ~~~~~~~~~~~~~~~~~~~~~~
-../vector_tests/../../../Vector.hpp:48:12: note: candidate constructor not viable: no known conversion from 'std::__1::vector<int, std::__1::allocator<int> >::iterator' (aka '__wrap_iter<int *>') to 'ft::vector<int, std::__1::allocator<int> >::size_type' (aka 'unsigned long') for 1st argument
-                explicit vector (size_type n, const value_type& val = value_type(), 
-                         ^
-../vector_tests/../../../Vector.hpp:62:4: note: candidate template ignored: substitution failure [with InputIterator = std::__1::__wrap_iter<int *>]
-                        vector (InputIterator first, 
+../map_tests/__service.ipp:40:47: error: use of undeclared identifier 'ft'
+                m2.insert(std::make_pair(3, 3)); mp2.insert(ft::make_pair(3, 3));
+                                                            ^
+../map_tests/__service.ipp:41:47: error: use of undeclared identifier 'ft'
+                m3.insert(std::make_pair(3, 4)); mp3.insert(ft::make_pair(3, 4));
+                                                            ^
+../map_tests/__service.ipp:42:47: error: use of undeclared identifier 'ft'
+                m4.insert(std::make_pair(4, 4)); mp4.insert(ft::make_pair(4, 4));
+                                                            ^
+../map_tests/__service.ipp:43:47: error: use of undeclared identifier 'ft'
+                m4.insert(std::make_pair(4, 5)); mp4.insert(ft::make_pair(4, 5));
+                                                            ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+20 errors generated.
+ stopping now [-ferror-limit=]
+20 errors generated.
+
+        _stack<int> stack(deque);
+                    ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+20 errors generated.
+                                     ^
+../vector_tests/operator >=.cpp:23:31: note: in instantiation of function template specialization 'ft::operator>=<int, std::__1::allocator<int> >' requested here
+    result_2.push_back(V_int1 >= V_int2);
+                              ^
+../vector_tests/../../../vIterator.hpp:131:11: note: declared private here
+        const T*        ptr;
                         ^
-../vector_tests/../../../Vector.hpp:40:12: note: candidate constructor not viable: allows at most single argument 'alloc', but 2 arguments were provided
-                explicit vector (const allocator_type& alloc = allocator_type()) : 
-                         ^
-../vector_tests/../../../Vector.hpp:76:3: note: candidate constructor not viable: requires single argument 'other', but 2 arguments were provided
-                vector (const vector& other)
-                ^
-2 errors generated.
+../vector_tests/../../../vIterator.hpp:226:94: error: 'ptr' is a private member of 'const_vIterator<int>'
+        bool    operator!=(const const_vIterator<T> A, const const_vIterator<T> B) { return A.ptr != B.ptr; }
+                                                                                                       ^
+../vector_tests/../../../vIterator.hpp:131:11: note: declared private here
+        const T*        ptr;
+                        ^
+../vector_tests/../../../vIterator.hpp:223:85: error: 'ptr' is a private member of 'const_vIterator<int>'
+        bool    operator==(const const_vIterator<T> A, const const_vIterator<T> B) { return A.ptr == B.ptr; }
+                                                                                              ^
+../vector_tests/../../../utilities.hpp:110:18: note: in instantiation of function template specialization 'operator==<int>' requested here
+                return (first1 == last1) && (first2 != last2);
+                               ^
+../vector_tests/../../../Vector.hpp:394:11: note: in instantiation of function template specialization 'ft::lexicographical_compare<const_vIterator<int>, const_vIterator<int> >' requested here
+                        return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+                               ^
+../vector_tests/../../../Vector.hpp:412:17: note: in instantiation of function template specialization 'ft::operator<<int, std::__1::allocator<int> >' requested here
+                        return !(lhs < rhs);
+                                     ^
+../vector_tests/operator >=.cpp:23:31: note: in instantiation of function template specialization 'ft::operator>=<int, std::__1::allocator<int> >' requested here
+    result_2.push_back(V_int1 >= V_int2);
+                              ^
+../vector_tests/../../../vIterator.hpp:131:11: note: declared private here
+        const T*        ptr;
+                        ^
+../vector_tests/../../../vIterator.hpp:223:94: error: 'ptr' is a private member of 'const_vIterator<int>'
+        bool    operator==(const const_vIterator<T> A, const const_vIterator<T> B) { return A.ptr == B.ptr; }
+                                                                                                       ^
+../vector_tests/../../../vIterator.hpp:131:11: note: declared private here
+        const T*        ptr;
+                        ^
+In file included from ../vector_tests/operator >=.cpp:2:
+In file included from ../vector_tests/__service.ipp:3:
+../vector_tests/../../../Vector.hpp:394:11: error: call to 'lexicographical_compare' is ambiguous
+                        return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+                               ^~~~~~~~~~~~~~~~~~~~~~~
+../vector_tests/../../../Vector.hpp:412:17: note: in instantiation of function template specialization 'ft::operator<<std::__1::basic_string<char>, std::__1::allocator<std::__1::basic_string<char> > >' requested here
+                        return !(lhs < rhs);
+                                     ^
+../vector_tests/operator >=.cpp:27:31: note: in instantiation of function template specialization 'ft::operator>=<std::__1::basic_string<char>, std::__1::allocator<std::__1::basic_string<char> > >' requested here
+    result_2.push_back(V_str1 >= V_str2);
+                              ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/algorithm:5592:1: note: candidate function [with _InputIterator1 = const_vIterator<std::__1::basic_string<char> >, _InputIterator2 = const_vIterator<std::__1::basic_string<char> >]
+lexicographical_compare(_InputIterator1 __first1, _InputIterator1 __last1,
+^
+../vector_tests/../../../utilities.hpp:100:8: note: candidate function [with InputIterator1 = const_vIterator<std::__1::basic_string<char> >, InputIterator2 = const_vIterator<std::__1::basic_string<char> >]
+                bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
+                     ^
+In file included from ../vector_tests/operator >=.cpp:2:
+In file included from ../vector_tests/__service.ipp:3:
+../vector_tests/../../../Vector.hpp:129:43: error: no matching constructor for initialization of 'ft::vector<std::__1::basic_string<char>, std::__1::allocator<std::__1::basic_string<char> > >::const_iterator' (aka 'const_vIterator<std::__1::basic_string<char> >')
+                const_iterator                  begin() const { return const_iterator(this->_begin); }
+                                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../vector_tests/../../../Vector.hpp:394:39: note: in instantiation of member function 'ft::vector<std::__1::basic_string<char>, std::__1::allocator<std::__1::basic_string<char> > >::begin' requested here
+                        return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+                                                           ^
+../vector_tests/../../../Vector.hpp:412:17: note: in instantiation of function template specialization 'ft::operator<<std::__1::basic_string<char>, std::__1::allocator<std::__1::basic_string<char> > >' requested here
+                        return !(lhs < rhs);
+                                     ^
+../vector_tests/operator >=.cpp:27:31: note: in instantiation of function template specialization 'ft::operator>=<std::__1::basic_string<char>, std::__1::allocator<std::__1::basic_string<char> > >' requested here
+    result_2.push_back(V_str1 >= V_str2);
+                              ^
+../vector_tests/../../../vIterator.hpp:144:2: note: candidate constructor not viable: no known conversion from 'ft::vector<std::__1::basic_string<char>, std::__1::allocator<std::__1::basic_string<char> > >::const_iterator' (aka 'const_vIterator<std::__1::basic_string<char> >') to 'const_vIterator<std::__1::basic_string<char> >::pointer' (aka 'const std::__1::basic_string<char> *') for 1st argument
+        const_vIterator(pointer _ptr) : ptr(_ptr) {}
+        ^
+../vector_tests/../../../vIterator.hpp:145:2: note: candidate constructor not viable: expects an l-value for 1st argument
+        const_vIterator(const_vIterator& other) : ptr(other.ptr) {}
+        ^
+../vector_tests/../../../vIterator.hpp:143:2: note: candidate constructor not viable: requires 0 arguments, but 1 was provided
+        const_vIterator() : ptr(nullptr) {}
+        ^
+In file included from ../vector_tests/operator >=.cpp:2:
+In file included from ../vector_tests/__service.ipp:3:
+../vector_tests/../../../Vector.hpp:131:41: error: no matching constructor for initialization of 'ft::vector<std::__1::basic_string<char>, std::__1::allocator<std::__1::basic_string<char> > >::const_iterator' (aka 'const_vIterator<std::__1::basic_string<char> >')
+                const_iterator                  end() const { return const_iterator(this->_begin + this->_size); }
+                                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../vector_tests/../../../Vector.hpp:394:52: note: in instantiation of member function 'ft::vector<std::__1::basic_string<char>, std::__1::allocator<std::__1::basic_string<char> > >::end' requested here
+                        return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+                                                                        ^
+../vector_tests/../../../Vector.hpp:412:17: note: in instantiation of function template specialization 'ft::operator<<std::__1::basic_string<char>, std::__1::allocator<std::__1::basic_string<char> > >' requested here
+                        return !(lhs < rhs);
+                                     ^
+../vector_tests/operator >=.cpp:27:31: note: in instantiation of function template specialization 'ft::operator>=<std::__1::basic_string<char>, std::__1::allocator<std::__1::basic_string<char> > >' requested here
+    result_2.push_back(V_str1 >= V_str2);
+                              ^
+../vector_tests/../../../vIterator.hpp:144:2: note: candidate constructor not viable: no known conversion from 'ft::vector<std::__1::basic_string<char>, std::__1::allocator<std::__1::basic_string<char> > >::const_iterator' (aka 'const_vIterator<std::__1::basic_string<char> >') to 'const_vIterator<std::__1::basic_string<char> >::pointer' (aka 'const std::__1::basic_string<char> *') for 1st argument
+        const_vIterator(pointer _ptr) : ptr(_ptr) {}
+        ^
+../vector_tests/../../../vIterator.hpp:145:2: note: candidate constructor not viable: expects an l-value for 1st argument
+        const_vIterator(const_vIterator& other) : ptr(other.ptr) {}
+        ^
+../vector_tests/../../../vIterator.hpp:143:2: note: candidate constructor not viable: requires 0 arguments, but 1 was provided
+        const_vIterator() : ptr(nullptr) {}
+        ^
+10 errors generated.
