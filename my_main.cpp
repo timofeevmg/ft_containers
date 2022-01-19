@@ -43,22 +43,6 @@ int		main()
 	// std::cout << "v3 size : " << v3.size() << " | v3 capacity : " << v3.capacity() << std::endl;
 	// std::cout << "v3[0] = " << v3[0] << " | v3[9] = " << v3[9] << std::endl;
 
-	ft::vector<int> vector;
-	std::vector<int> v;
-	vector.assign(99000000, 1);
-	vector.resize(50000000);
-	vector.reserve(50000000);
-	v.push_back(vector.size());
-	v.push_back(vector.capacity());
-	vector.resize(70000000);
-	v.push_back(vector.size());
-	v.push_back(vector.capacity());
-	vector.resize(153000000, 0);
-	v.push_back(vector.size());
-	v.push_back(vector.capacity());
-	v.push_back(vector[65]);
 
-// std: 50000000	|99000000	|70000000	|99000000	|153000000	|198000000	|1	|
-// my_v: 50000000	|99000000	|70000000	|99000000	|153000000	|153000000	|1	|
 
 };
