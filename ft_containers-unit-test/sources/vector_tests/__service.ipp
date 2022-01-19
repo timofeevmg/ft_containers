@@ -1,6 +1,7 @@
 #pragma once
 #include "../system/lib.hpp"
 #include VECTOR
+#include <iostream>////
 
 template <class T>
 int run_vector_unit_test(std::string test_name, std::vector<int> (func1)(std::vector<T>), std::vector<int> (func2)(_vector<T>)) {
@@ -22,6 +23,21 @@ int run_vector_unit_test(std::string test_name, std::vector<int> (func1)(std::ve
 	}
 	else {
 	    printElement("FAILED");
+///////////printout vectors
+		std::vector<int>::iterator itb = res1.begin();
+		std::vector<int>::iterator ite = res1.end();
+		std::cout << "std: ";
+		for (; itb != ite; ++itb)
+			std::cout << *itb << "	|";
+		std::cout << endl;
+
+		itb = res2.begin();
+		ite = res2.end();
+		std::cout << "my_v: ";
+		for (; itb != ite; ++itb)
+			std::cout << *itb << "	|";
+		std::cout << endl;
+///////////////////////////
 	    result = 1;
 	}
 	t1 = g_end1 - g_start1, t2 = g_end2 - g_start2;

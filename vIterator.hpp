@@ -28,9 +28,12 @@ public:
 	vIterator(const vIterator& other) : ptr(other.ptr) {}
 	~vIterator() {}
 
+	pointer	getPtr() const { return this->ptr; }
+
 	vIterator&	operator= (const vIterator& other)
 	{
-		this->ptr = other.ptr;
+		if (this != &other)
+			this->ptr = other.ptr;
 		return *this;
 	}
 
@@ -104,22 +107,22 @@ public:
 };
 
 template <typename T>
-	bool	operator==(const vIterator<T> A, const vIterator<T> B) { return A.ptr == B.ptr; }
+	bool	operator==(const vIterator<T> A, const vIterator<T> B) { return A.getPtr() == B.getPtr(); }
 
 template <typename T>
-	bool	operator!=(const vIterator<T> A, const vIterator<T> B) { return A.ptr != B.ptr; }
+	bool	operator!=(const vIterator<T> A, const vIterator<T> B) { return A.getPtr() != B.getPtr(); }
 
 template <typename T>
-	bool	operator<(const vIterator<T> A, const vIterator<T> B) { return A.ptr < B.ptr; }
+	bool	operator<(const vIterator<T> A, const vIterator<T> B) { return A.getPtr() < B.getPtr(); }
 
 template <typename T>
-	bool	operator>(const vIterator<T> A, const vIterator<T> B) { return A.ptr > B.ptr; }
+	bool	operator>(const vIterator<T> A, const vIterator<T> B) { return A.getPtr() > B.getPtr(); }
 
 template <typename T>
-	bool	operator<=(const vIterator<T> A, const vIterator<T> B) { return A.ptr <= B.ptr; }
+	bool	operator<=(const vIterator<T> A, const vIterator<T> B) { return A.getPtr() <= B.getPtr(); }
 
 template <typename T>
-	bool	operator>=(const vIterator<T> A, const vIterator<T> B) { return A.ptr >= B.ptr; }
+	bool	operator>=(const vIterator<T> A, const vIterator<T> B) { return A.getPtr() >= B.getPtr(); }
 
 ///////////////////////////////////////////////////////////////////////////////
 //                            CONST_ITERATOR                                 //
@@ -220,22 +223,22 @@ public:
 };
 
 template <typename T>
-	bool	operator==(const const_vIterator<T> A, const const_vIterator<T> B) { return A.ptr == B.ptr; }
+	bool	operator==(const const_vIterator<T> A, const const_vIterator<T> B) { return A.getPtr() == B.getPtr(); }
 
 template <typename T>
-	bool	operator!=(const const_vIterator<T> A, const const_vIterator<T> B) { return A.ptr != B.ptr; }
+	bool	operator!=(const const_vIterator<T> A, const const_vIterator<T> B) { return A.getPtr() != B.getPtr(); }
 
 template <typename T>
-	bool	operator<(const const_vIterator<T> A, const const_vIterator<T> B) { return A.ptr < B.ptr; }
+	bool	operator<(const const_vIterator<T> A, const const_vIterator<T> B) { return A.getPtr() < B.getPtr(); }
 
 template <typename T>
-	bool	operator>(const const_vIterator<T> A, const const_vIterator<T> B) { return A.ptr > B.ptr; }
+	bool	operator>(const const_vIterator<T> A, const const_vIterator<T> B) { return A.getPtr() > B.getPtr(); }
 
 template <typename T>
-	bool	operator<=(const const_vIterator<T> A, const const_vIterator<T> B) { return A.ptr <= B.ptr; }
+	bool	operator<=(const const_vIterator<T> A, const const_vIterator<T> B) { return A.getPtr() <= B.getPtr(); }
 
 template <typename T>
-	bool	operator>=(const const_vIterator<T> A, const const_vIterator<T> B) { return A.ptr >= B.ptr; }
+	bool	operator>=(const const_vIterator<T> A, const const_vIterator<T> B) { return A.getPtr() >= B.getPtr(); }
 
 ///////////////////////////////////////////////////////////////////////////////
 //                           REVERSE_ITERATOR                                //
@@ -251,8 +254,8 @@ public:
 	typedef vIterator													iterator_type;
 	typedef typename ft::iterator_traits<vIterator>::iterator_category	iterator_category;
 	typedef typename ft::iterator_traits<vIterator>::value_type			value_type;
-	typedef typename ft::iterator_traits<vIterator>::difference_type		difference_type;
-	typedef typename ft::iterator_traits<vIterator>::pointer				pointer;
+	typedef typename ft::iterator_traits<vIterator>::difference_type	difference_type;
+	typedef typename ft::iterator_traits<vIterator>::pointer			pointer;
 	typedef typename ft::iterator_traits<vIterator>::reference			reference;
 
 // CONSTRUCTOR
@@ -266,6 +269,8 @@ public:
 	{
 		this->base_iterator = rev_it.base_iterator;
 	}
+
+	~vRevIterator() {}
 
 // BASE
 	iterator_type	base() const { return this->base_iterator; }
