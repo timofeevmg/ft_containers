@@ -234,38 +234,29 @@ namespace ft
 ////// SINGLE ELEMENT
 		iterator	insert (iterator position, const value_type& val)
 		{
-			size_type	new_capacity = (this->_size + 1) > this->_capacity ? (this->_size + 1) : this->_capacity;
-			pointer		tmp = A.allocate(new_capacity);
-			iterator	start = this->begin();
-			iterator	end = this->end();
-			size_type	i = 0;
-			for (; i < position - start; ++i)
-			{
-				A.construct(tmp + i, *(start + i));
-				A.destroy(this->_begin + i);
-			}
-			A.construct(tmp + i, val);
-			++i;
-			for (; i < end - position; ++i)
-			{
-				A.construct(tmp + i, *(start + i));
-				A.destroy(this->_begin + i - 1);
-			}
-			A.deallocate(this->_begin, this->_capacity);
-			this->_begin = tmp;
-			++this->_size;
-			this->_capacity = new_capacity;
+			difference_type	dist = position - this->begin();
+			this->insert(position, 1, val);
+			return	iterator(this->_begin + dist);
 		}
 
 ////// FILL
 		void		insert (iterator position, size_type n, const value_type& val)
 		{
-			size_type	new_capacity = (this->_size + n) > this->_capacity ? (this->_capacity = this->_size + n) : this->_capacity;
+			size_type	new_capacity;
+			if ((this->_size + 1) > this->_capacity)
+			{
+				if ((this->_size + 1) < (this->_capacity * 2))
+					new_capacity = this->_capacity * 2;
+				else
+					new_capacity = this->_size + 1;
+			}
+			else
+				new_capacity = this->_capacity;
 			pointer		tmp = A.allocate(new_capacity);
 			iterator	start = this->begin();
 			iterator	end = this->end();
 			size_type	i = 0;
-			for (; i < position - start; ++i)
+			for (; i < static_cast<size_type>(position - start); ++i)
 			{
 				A.construct(tmp + i, *(start + i));
 				A.destroy(this->_begin + i);
@@ -274,7 +265,7 @@ namespace ft
 			for (; j < n; ++j)
 				A.construct(tmp + i + j, val);
 			i += j;
-			for (; i < end - position; ++i)
+			for (; i < static_cast<size_type>(end - position); ++i)
 			{
 				A.construct(tmp + i, *(start + i));
 				A.destroy(this->_begin + i - j);
@@ -286,9 +277,44 @@ namespace ft
 		}
 
 ////// RANGE
-		// template <class InputIterator>
-		// 	void	insert (iterator position, InputIterator first, 
-		// 					typename enable_if<!is_integral<InputIterator>::value>::type last);
+		template <class InputIterator>
+			void	insert (iterator position, InputIterator first, InputIterator last,
+							typename enable_if<!is_integral<InputIterator>::value>::type* = 0)
+		{
+			size_type	length = static_cast<size_type>(last - first);
+			size_type	newCap;
+			if ((this->_size + length) > this->_capacity)
+			{
+				if ((this->_size + length) < (this->_capacity * 2))
+					newCap = this->_capacity * 2;
+				else
+					newCap = this->_size + length;
+			}
+			else
+				newCap = this->_capacity;
+			pointer		tmp = A.allocate(newCap);
+			iterator	start = this->begin();
+			iterator	end = this->end();
+			size_type	i = 0;
+			for (; i < position - start; ++i)
+			{
+				A.construct(tmp + i, *(start + i));
+				A.destroy(this->_begin + i);
+			}
+			size_type	j = 0;
+			for (; j < length; ++j, ++first)
+				A.construct(tmp + i + j, *first);
+			i += j;
+			for (; i < end - position; ++i)
+			{
+				A.construct(tmp + i, *(start + i));
+				A.destroy(this->_begin + i - j);
+			}
+			A.deallocate(this->_begin, this->_capacity);
+			this->_begin = tmp;
+			this->_size += length;
+			this->_capacity = newCap;
+		}
 
 //// ERASE
 ////// SINGLE ELEMENT
@@ -324,17 +350,20 @@ namespace ft
 // SWAP
 		void		swap (vector& other)
 		{
-			pointer		tmp_pointer = this->_begin;
-			size_type	tmp_capacity = this->_capacity;
-			size_type	tmp_size = this->_size;
+			pointer			tmp_pointer = this->_begin;
+			size_type		tmp_capacity = this->_capacity;
+			size_type		tmp_size = this->_size;
+			allocator_type	tmp_alloc = this->A;
 
 			this->_begin = other._begin;
 			this->_capacity = other.capacity();
 			this->_size = other.size();
+			this->A = other.get_allocator();
 
 			other._begin = tmp_pointer;
 			other._capacity = tmp_capacity;
 			other._size = tmp_size;
+			other.A = tmp_alloc;
 		}
 
 		void		clear()
@@ -367,7 +396,7 @@ namespace ft
 		{
 			if (lhs.size() != rhs.size())
 				return false;
-			return equal(lhs.begin(), lhs.end(), rhs.begin());
+			return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
 		}
 
 		template <class T, class Alloc>
@@ -379,7 +408,7 @@ namespace ft
 		template <class T, class Alloc>
 			bool	operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 		{
-			return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+			return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 		}
 
 		template <class T, class Alloc>

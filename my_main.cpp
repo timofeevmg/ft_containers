@@ -1,6 +1,8 @@
 #include "Vector.hpp"
 #include <vector>
 #include <iostream>
+#include <iomanip>
+#include <string>
 
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
@@ -11,6 +13,8 @@
 #define MAGENTA "\033[35m"      /* Magenta */
 #define CYAN    "\033[36m"      /* Cyan */
 #define WHITE   "\033[37m"      /* White */
+
+int _ratio = 10000;
 
 int		main()
 {
@@ -44,5 +48,66 @@ int		main()
 	// std::cout << "v3[0] = " << v3[0] << " | v3[9] = " << v3[9] << std::endl;
 
 
+//INSERT VALUE
+	// ft::vector<int> vector;
+	// vector.assign(26000000, 1);
+	// vector.insert(vector.end() - 8000000, 44);
+	// vector.size();
+	// vector.capacity();
+
+//SWAP
+	// ft::vector<int>	vector;
+	// vector.assign(1100 * _ratio, 11);
+	// std::cout << "vector:	" << vector[100000] << "|" << vector.size() << "|" << vector.capacity() << std::endl;
+
+	// ft::vector<int> tmp(500 * _ratio, 5);
+	// std::cout << "tmp:	" << tmp[100000] << "|" << tmp.size() << "|" << tmp.capacity() << std::endl;
+
+	// ft::vector<int>	tmp2(1000 * _ratio, 10);
+	// std::cout << "tmp2:	" << tmp2[100000] << "|" << tmp2.size() << "|" << tmp2.capacity() << std::endl;
+
+	// ft::vector<int>	tmp3(1500 * _ratio, 15);
+	// std::cout << "tmp3:	" << tmp3[100000] << "|" << tmp3.size() << "|" << tmp3.capacity() << std::endl;
+
+	// ft::vector<int> tmp4(3000 * _ratio, 30);
+	// std::cout << "tmp4:	" << tmp4[100000] << "|" << tmp4.size() << "|" << tmp4.capacity() << std::endl;
+
+	// std::cout << std::endl;
+
+	// vector.swap(tmp);
+	// std::cout << "swap(vector/tmp):" << std::endl;
+	// std::cout << "vector:	" << vector[100000] << "|" << vector.size() << "|" << vector.capacity() << std::endl;
+	// std::cout << "tmp:	" << tmp[100000] << "|" << tmp.size() << "|" << tmp.capacity() << std::endl;
+
+	// std::cout << std::endl;
+
+	// vector.swap(tmp3);
+	// std::cout << "swap(vector/tmp3):" << std::endl;
+	// std::cout << "vector:	" << vector[100000] << "|" << vector.size() << "|" << vector.capacity() << std::endl;
+	// std::cout << "tmp3:	" << tmp3[100000] << "|" << tmp3.size() << "|" << tmp3.capacity() << std::endl;
+
+	// // std::swap(vector, tmp2);
+
+	// // std::swap(vector, tmp4);
+
+// ==
+	// ft::vector<int> V_int1;
+	// ft::vector<int> V_int2;
+	// ft::vector<int> V_int3;
+	ft::vector<std::string> V_str1;
+	ft::vector<std::string> V_str2;
+
+	// V_int1.push_back(1);
+	// V_int3.push_back(1);
+	V_str1.push_back("aa");
+	V_str2.push_back("ab");
+
+	// std::cout << "V_int1 == V_int2 :" << std::boolalpha << (V_int1 == V_int2) << std::endl;
+
+	// V_int2.push_back(2);
+
+	// std::cout << "V_int1 == V_int2 :" << std::boolalpha << (V_int1 == V_int2) << std::endl;
+	// std::cout << "V_int1 == V_int3 :" << std::boolalpha << (V_int1 == V_int3) << std::endl;
+	std::cout << "V_str1 == V_str2 :" << std::boolalpha << (V_str1 == V_str2) << std::endl;
 
 };

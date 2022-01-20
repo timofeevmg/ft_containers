@@ -24,7 +24,7 @@ public:
 
 
 	vIterator() : ptr(nullptr) {}
-	vIterator(pointer _ptr) : ptr(_ptr) {}
+	vIterator(const pointer _ptr) : ptr(_ptr) {}
 	vIterator(const vIterator& other) : ptr(other.ptr) {}
 	~vIterator() {}
 
@@ -144,9 +144,12 @@ public:
 
 
 	const_vIterator() : ptr(nullptr) {}
-	const_vIterator(pointer _ptr) : ptr(_ptr) {}
-	const_vIterator(const_vIterator& other) : ptr(other.ptr) {}
+	const_vIterator(const pointer _ptr) : ptr(_ptr) {}
+	const_vIterator(const vIterator<T>& other) : ptr(other.ptr) {}
+	const_vIterator(const const_vIterator<T>& other) : ptr(other.ptr) {}
 	~const_vIterator() {}
+
+	pointer	getPtr() const { return this->ptr; }
 
 	const_vIterator&	operator= (const const_vIterator& other)
 	{

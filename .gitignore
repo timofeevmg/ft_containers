@@ -1,5 +1,7 @@
 .DS_Store
 ft_containers-unit-test
+unit_test
+unit_test_2
 .vscode
 vtest
 my_main
