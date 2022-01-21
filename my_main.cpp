@@ -107,22 +107,12 @@ int		main()
 	// std::cout << "V_int1 == V_int3 :" << std::boolalpha << (V_int1 == V_int3) << std::endl;
 
 // STACK
-	ft::stack<int>	stk;
-	for (int i = 0; i < 100; ++i)
-		stk.push(i);
-
-	ft::stack<int> stack2(stk);
-	ft::stack<int> stack3;
-	stack3 = stack2;
-
-	// ft::vector<int>	v1;
+	// ft::stack<int>	stk;
 	// for (int i = 0; i < 100; ++i)
-	// 	v1.push_back(i);
+	// 	stk.push(i);
 
-	// ft::vector<int> v2(v1);
-
-	// v2.clear();
-
-	// v2 = v1;
+	// ft::stack<int> stack2(stk);
+	// ft::stack<int> stack3;
+	// stack3 = stack2;
 
 };
