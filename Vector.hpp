@@ -58,9 +58,8 @@ namespace ft
 		{
 			this->_begin = A.allocate(this->_capacity);
 
-			pointer	p = this->_begin;
 			for (size_type i = 0; i < n; ++i)
-				A.construct(p + i, val);
+				A.construct(&this->_begin[i], val);
 		}
 
 
@@ -75,7 +74,7 @@ namespace ft
 			this->_capacity = this->_size;
 			this->_begin = A.allocate(this->_capacity);
 			for (difference_type i = 0; i < static_cast<difference_type>(this->_size); ++i)
-				A.construct(this->_begin + i, *(first + i));
+				A.construct(&this->_begin[i], *(first + i));
 		}
 
 
@@ -85,15 +84,15 @@ namespace ft
 		{
 			this->_begin = A.allocate(this->_capacity);
 			for (size_type i = 0; i < this->_size; ++i)
-				A.construct(this->_begin + i, other[i]);
+				A.construct(&this->_begin[i], other[i]);
 		}
 
 
 // DESTRUCTOR
 		~vector()
 		{
-			for (iterator it = this->begin(); it != this->end(); ++it)
-					A.destroy(&(*it));
+			for (size_type i = 0; i < this->_size; ++i)
+				A.destroy(&this->_begin[i]);
 			A.deallocate(this->_begin, this->_capacity);
 		}
 
@@ -103,18 +102,18 @@ namespace ft
 		{
 			if (this == &other)
 				return *this;
-			if (this->_size)
-			{
-				pointer	p = this->_begin + this->_size - 1;
-				for (size_type i = 0; i < this->_size; ++i)
-					A.destroy(p - i);
-			}
-			A.deallocate(this->_begin, this->_capacity);
+
+			this->~vector();
+			// pointer	p = this->_begin + this->_size - 1;
+			// for (size_type i = 0; i < this->_size; ++i)
+			// 	A.destroy(p - i);
+
+			// A.deallocate(this->_begin, this->_capacity);
 			this->_size = other.size();
 			this->_capacity = other.capacity();
-			A.allocate(this->_capacity);
+			this->_begin = A.allocate(this->_capacity);
 			for (size_type i = 0; i < this->_size; ++i)
-				A.construct(this->_begin + i, other[i]);
+				A.construct(&this->_begin[i], other[i]);
 			return *this;
 		}
 
@@ -216,7 +215,9 @@ namespace ft
 		{
 			if (this->_capacity < this->_size + 1)
 				this->reserve(this->_size * 2);
-			A.construct(this->_begin + this->_size, val);
+			if (this->_size + 1 > this->_capacity)
+                    reallocVector(!this->_capacity ? 1 : this->_capacity * 2);
+			A.construct(&this->_begin[this->_size], val);
 			++this->_size;
 		}
 

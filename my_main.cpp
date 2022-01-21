@@ -1,4 +1,5 @@
 #include "Vector.hpp"
+#include "Stack.hpp"
 #include <vector>
 #include <iostream>
 #include <iomanip>
@@ -94,13 +95,9 @@ int		main()
 	// ft::vector<int> V_int1;
 	// ft::vector<int> V_int2;
 	// ft::vector<int> V_int3;
-	ft::vector<std::string> V_str1;
-	ft::vector<std::string> V_str2;
 
 	// V_int1.push_back(1);
 	// V_int3.push_back(1);
-	V_str1.push_back("aa");
-	V_str2.push_back("ab");
 
 	// std::cout << "V_int1 == V_int2 :" << std::boolalpha << (V_int1 == V_int2) << std::endl;
 
@@ -108,6 +105,24 @@ int		main()
 
 	// std::cout << "V_int1 == V_int2 :" << std::boolalpha << (V_int1 == V_int2) << std::endl;
 	// std::cout << "V_int1 == V_int3 :" << std::boolalpha << (V_int1 == V_int3) << std::endl;
-	std::cout << "V_str1 == V_str2 :" << std::boolalpha << (V_str1 == V_str2) << std::endl;
+
+// STACK
+	ft::stack<int>	stk;
+	for (int i = 0; i < 100; ++i)
+		stk.push(i);
+
+	ft::stack<int> stack2(stk);
+	ft::stack<int> stack3;
+	stack3 = stack2;
+
+	// ft::vector<int>	v1;
+	// for (int i = 0; i < 100; ++i)
+	// 	v1.push_back(i);
+
+	// ft::vector<int> v2(v1);
+
+	// v2.clear();
+
+	// v2 = v1;
 
 };

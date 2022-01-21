@@ -73,6 +73,7 @@
 		"__functional_03": "cpp",
 		"filesystem": "cpp",
 		"list": "cpp",
-		"queue": "cpp"
+		"queue": "cpp",
+		"__cxx_version": "cpp"
 	}
 }

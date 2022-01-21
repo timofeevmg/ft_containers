@@ -14,6 +14,7 @@ private:
 	T*	ptr;
 
 public:
+	typedef	T*														iterator_type;
 	typedef typename ft::iterator_traits<T *>::value_type			value_type;
 	typedef typename ft::iterator_traits<T *>::difference_type		difference_type;
 	typedef typename ft::iterator_traits<T *>::pointer				pointer;
