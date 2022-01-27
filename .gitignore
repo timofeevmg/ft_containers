@@ -9,3 +9,5 @@ my_main.dSYM
 vtest
 vtest.dSYM
 test_vector
+rbt.cpp
+rbt

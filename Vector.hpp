@@ -1,7 +1,6 @@
 #ifndef CUSTOM_VECTOR_HPP
 #define CUSTOM_VECTOR_HPP
 
-#include <cstddef>
 #include <memory>
 #include <stdexcept>
 
@@ -23,13 +22,13 @@ namespace ft
 		typedef typename allocator_type::pointer			pointer;
 		typedef typename allocator_type::const_pointer		const_pointer;
 
-		typedef ptrdiff_t	difference_type;
-		typedef size_t		size_type;
+		typedef std::ptrdiff_t								difference_type;
+		typedef std::size_t									size_type;
 
-		typedef vIterator<value_type>				iterator;
-		typedef const_vIterator<value_type>			const_iterator;
-		typedef vRevIterator<iterator>				reverse_iterator;
-		typedef vRevIterator<const_iterator>		const_reverse_iterator;
+		typedef vIterator<value_type>						iterator;
+		typedef const_vIterator<value_type>					const_iterator;
+		typedef vRevIterator<iterator>						reverse_iterator;
+		typedef vRevIterator<const_iterator>				const_reverse_iterator;
 
 	private:
 		pointer		_begin;
@@ -104,11 +103,7 @@ namespace ft
 				return *this;
 
 			this->~vector();
-			// pointer	p = this->_begin + this->_size - 1;
-			// for (size_type i = 0; i < this->_size; ++i)
-			// 	A.destroy(p - i);
 
-			// A.deallocate(this->_begin, this->_capacity);
 			this->_size = other.size();
 			this->_capacity = other.capacity();
 			this->_begin = A.allocate(this->_capacity);

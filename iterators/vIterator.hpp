@@ -21,7 +21,7 @@ public:
 	typedef typename ft::iterator_traits<T *>::reference			reference;
 	typedef typename ft::iterator_traits<T *>::iterator_category	iterator_category;
 
-	typedef size_t	size_type;
+	typedef std::size_t												size_type;
 
 
 	vIterator() : ptr(nullptr) {}
