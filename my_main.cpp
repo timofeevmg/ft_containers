@@ -23,6 +23,13 @@ int		main()
 //                                VECTOR                                     //
 ///////////////////////////////////////////////////////////////////////////////
 
+/**
+ * PRINTOUT VECTOR ELEMENTS
+ **/
+
+// while (first++ != last)
+// 	std::cout << *first << std::endl;
+
 	// std::cout << YELLOW << "---------------VECTOR_TEST-----------------" << std::endl;
 	// std::cout << "---------------CONSTRUCTOR-----------------" << RESET << std::endl;
 	// std::cout << "creating empty vector v1..." << std::endl;
