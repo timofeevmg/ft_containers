@@ -1,6 +1,7 @@
 #include "Vector.hpp"
 #include "Stack.hpp"
 #include <vector>
+#include <map>
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -122,4 +123,5 @@ int		main()
 	// ft::stack<int> stack3;
 	// stack3 = stack2;
 
+	std::map<int, int>	m;
 };

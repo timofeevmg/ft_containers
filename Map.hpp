@@ -2,17 +2,29 @@
 #define CUSTOM_MAP_HPP
 
 #include <functional>
-#include "iterators/mIterator.hpp"
+#include "utilities.hpp"
 
 namespace ft
 {
-///////////////////////////////////////////////////////////////////////////////
-//                                   MAP                                     //
-///////////////////////////////////////////////////////////////////////////////
+/**
+ * ///////////////////////////////////////////////////////////////////////////////
+ * //                                   MAP                                     //
+ * ///////////////////////////////////////////////////////////////////////////////
+ */
 	template <class Key, class T, class Compare = std::less<Key>,
 			class Allocator = std::allocator<ft::pair<const Key, T> > > 
 		class map
 	{
+	private:
+		struct Node
+		{
+			ft::pair<const Key, T>	data;
+			Node					*left;
+			Node					*right;
+			Node					*parent;
+			bool					isBlack;
+		}
+
 	public:
 		typedef Key											key_type;
 		typedef T											mapped_type;
@@ -23,25 +35,55 @@ namespace ft
 		typedef typename allocator_type::const_reference	const_reference;
 		typedef typename allocator_type::pointer			pointer;
 		typedef typename allocator_type::const_pointer		const_pointer;
-		typedef 											iterator;
-		typedef 											const_iterator;
-		typedef 											reverse_iterator;
-		typedef 											const_reverse_iterator;
 		typedef std::ptrdiff_t								difference_type;
 		typedef std::size_t									size_type;
 
+		typedef Node*										nodePtr;
+
+		// typedef 											iterator;
+		// typedef 											const_iterator;
+		// typedef 											reverse_iterator;
+		// typedef 											const_reverse_iterator;
+
+		class value_compare : public binary_function<value_type, value_type, bool>
+		{
+			friend class map;
+		protected:
+			key_compare comp;
+			value_compare(key_compare c) : comp(c) {}
+
+		public:
+			bool operator()(const value_type& x, const value_type& y) const 
+			{ return comp(x.first, y.first); }
+		};
+
 	private:
 		nodePtr			root;
-		nodePtr			tNIL;
-		size_type		_size;
-		allocator_type	A;
+		nodePtr			nil;
+		size_type		map_size;
+		
+		key_compare		key_comp;
+
+		nodeAllocator	nodeAlloc;
+
+	private:
+		nodePtr		makeNode(value_type& pair)
+		{
+			nodePtr	newNode = nodeAlloc.allocate(1);
+
+		}
 
 	public:
 
 // CONSTRUCTOR
 //// empty
 		explicit map(const key_compare& comp = key_compare(),
-					const allocator_type& alloc = allocator_type());
+					const allocator_type& alloc = allocator_type()) : 
+					root(nullptr), nil(nullptr), map_size(0), key_comp(comp), pairAlloc(alloc)
+		{
+			
+		}
+
 //// range
 		template <class InputIterator>
 			map(InputIterator first, InputIterator last,
