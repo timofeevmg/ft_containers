@@ -125,16 +125,16 @@ namespace ft
 
 // CONSTRUCTOR
 //// DEFAULT
-		pair() : first(), second() {};
+		pair() : first(), second() {;}
 
 //// COPY
 		template <class U, class V> 
-			pair(const pair<U,V>& pr) : first(pr.first), second(pr.second) {};
+			pair(const pair<U,V>& pr) : first(pr.first), second(pr.second) {;}
 
 //// INIT
-		pair(const first_type& a, const second_type& b) : first(a), second(b) {};
+		pair(const first_type& a, const second_type& b) : first(a), second(b) {;}
 
-		~pair() {};
+		~pair() {;}
 
 // =
 		pair&	operator= (const pair& pr)
@@ -178,6 +178,30 @@ namespace ft
 		pair<T1,T2> make_pair (T1 x, T2 y) { return ( pair<T1,T2>(x,y) ); }
 
 ///////////////////////////////////////////////////////////////////////////////
+//                                NODE_STRUCT                                //
+///////////////////////////////////////////////////////////////////////////////
+	template <class V>
+		class Node
+	{
+	public:
+		typedef Node*	nodePtr;
+		typedef	V		value_type;
+
+		value_type	data;
+		nodePtr		left;
+		nodePtr		right;
+		nodePtr		parent;
+		bool		isBlack;
+		bool		isNIL;
+
+		explicit Node(value_type _data = value_type()) : 
+			data(_data), left(nullptr), right(nullptr), parent(nullptr), isBlack(false), isNIL(false)
+		{ ; }
+
+		~Node() {}
+	};
+
+///////////////////////////////////////////////////////////////////////////////
 //                                CONDITIONAL                                //
 ///////////////////////////////////////////////////////////////////////////////
 	// template<bool B, class T, class F>
@@ -195,6 +219,3 @@ namespace ft
 
 
 #endif
-
-//std::pair
-//std::make_pair
