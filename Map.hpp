@@ -163,7 +163,7 @@ namespace ft
 /**
  * CLEAR
  */
-		void	clear();
+		void	clear() { this->_tree.clear(); }
 
 // OBSERVERS
 		key_compare		key_comp() const { return this->_key_comp; }

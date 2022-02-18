@@ -5,6 +5,7 @@
 #include "utilities.hpp"
 #include "iterators/tIterator.hpp"
 
+
 template <class V, class Compare = std::less<V>, class Allocator = std::allocator<V> > 
 	class RedBlackTree
 {
@@ -13,9 +14,9 @@ public:
 	typedef Compare				value_compare;
 	typedef Allocator			allocator_type;
 
-	typedef ft::Node<V>			Node;
+	typedef	ft::Node<V>											Node;
+	typedef	Node*												nodePtr;
 	typedef typename Allocator::template rebind<Node>::other	nodeAlloc;
-	typedef	Node*				nodePtr;
 
 	typedef typename allocator_type::reference			reference;
 	typedef typename allocator_type::const_reference	const_reference;
@@ -37,6 +38,7 @@ private:
 	size_type		tree_size;
 	
 	value_compare	comp;
+
 
 	nodeAlloc		nodeA;
 
@@ -64,27 +66,27 @@ public:
 /**
  * BEGIN, END, RBEGIN, REND
  */
-	iterator	begin() { return empty() ? iterator(nil) : iterator(treeMin(root)); }
-	// const_iterator begin() const;
-	iterator	end() { return iterator(nil); }
-	// const_iterator end() const;
-	reverse_iterator rbegin() { return reverse_iterator(empty() ? iterator(nil) : iterator(treeMax(root))); }
-	// const_reverse_iterator rbegin() const;
-	reverse_iterator rend() { return reverse_iterator(iterator(nil)); }
-	// const_reverse_iterator rend() const;
+		iterator	begin() { return empty() ? iterator(nil) : iterator(treeMin(root)); }
+		// const_iterator begin() const;
+		iterator	end() { return iterator(nil); }
+		// const_iterator end() const;
+		// reverse_iterator rbegin() { return reverse_iterator(empty() ? iterator(nil) : iterator(treeMax(root))); }
+		// const_reverse_iterator rbegin() const;
+		// reverse_iterator rend() { return reverse_iterator(iterator(nil)); }
+		// const_reverse_iterator rend() const;
 
 
 /**
  * SIZE, MAX_SIZE, EMPTY
  */
-	size_type	size() { return tree_size; }
-	size_type	max_size() { return nodeA.max_size(); }
-	bool		empty() { return (!tree_size); }
+		// size_type	size() { return tree_size; }
+		// size_type	max_size() { return nodeA.max_size(); }
+		bool		empty() { return (!tree_size); }
 
 /**
  * VALUE_COMP
  */
-	value_compare	value_comp() { return comp; }
+		// value_compare	value_comp() { return comp; }
 
 
 /**
@@ -108,29 +110,29 @@ public:
 /**
  * ERASE
  */
-	void		erase(iterator position)
-	{
-		deleteNode(*position);
-		--tree_size;
-	}
-	size_type	erase(const value_type& val)
-	{
-		nodePtr	n = searchNode(val);
-		if (n == nil)
-			return 0;
-		erase(iterator(n));
-		return 1;
-	}
-	// void		erase(iterator first, iterator last);
+		// void		erase(iterator position)
+		// {
+		// 	deleteNode(*position);
+		// 	--tree_size;
+		// }
+		// size_type	erase(const value_type& val)
+		// {
+		// 	nodePtr	n = searchNode(val);
+		// 	if (n == nil)
+		// 		return 0;
+		// 	erase(iterator(n));
+		// 	return 1;
+		// }
+		// void		erase(iterator first, iterator last);
 
 /**
  * CLEAR
  */
-	// void	clear()
-	// {
+		// void	clear()
+		// {
 
-	// 	tree_size = 0;
-	// }
+		// 	tree_size = 0;
+		// }
 
 private:
 	void	initNilRoot()
@@ -138,7 +140,7 @@ private:
 		nil = nodeA.allocate(1);
 		nodeA.construct(nil, Node());
 		nil->isNIL = true;
-		nil->isBlack = true;
+		nil->color = BLACK;
 		nil->left = nullptr;
 		nil->right = nullptr;
 		nil->parent = nullptr;
@@ -194,9 +196,9 @@ private:
 	nodePtr	searchNode(int key)
 	{
 		nodePtr	x = this->root;
-		while (x != nil && key != x->data)
+		while (x != nil && key != x->value)
 		{
-			if (key < x->data)
+			if (key < x->value)
 				x = x->left;
 			else
 				x = x->right;
@@ -304,7 +306,7 @@ private:
 		while (x != this->nil)
 		{
 			y = x;
-			if (Node->data < x->data)
+			if (Node->value < x->value)
 				x = x->left;
 			else
 				x = x->right;
@@ -313,7 +315,7 @@ private:
 		Node->parent = y;
 		if (y == this->nil)
 			this->root = Node;
-		else if (Node->data < y->data)
+		else if (Node->value < y->value)
 			y->left = Node;
 		else
 			y->right = Node;
@@ -326,16 +328,16 @@ private:
  */
 	void	insertFix(nodePtr Node)
 	{
-		while (Node->parent->isBlack == false)
+		while (Node->parent->color == RED)
 		{
 			if (Node->parent == Node->parent->parent->left)
 			{
 				nodePtr	u = Node->parent->parent->right;
-				if (u->isBlack == false)
+				if (u->color == RED)
 				{
-					Node->parent->isBlack = true;
-					u->isBlack = true;
-					Node->parent->parent->isBlack = false;
+					Node->parent->color = BLACK;
+					u->color = BLACK;
+					Node->parent->parent->color = RED;
 					Node = Node->parent->parent;
 				}
 				else
@@ -345,19 +347,19 @@ private:
 						Node = Node->parent;
 						leftRotate(Node);
 					}
-					Node->parent->isBlack = true;
-					Node->parent->parent->isBlack = false;
+					Node->parent->color = BLACK;
+					Node->parent->parent->color = RED;
 					rightRotate(Node->parent->parent);
 				}
 			}
 			else
 			{
 				nodePtr	u = Node->parent->parent->left;
-				if (u->isBlack == false)
+				if (u->color == RED)
 				{
-					Node->parent->isBlack = true;
-					u->isBlack = true;
-					Node->parent->parent->isBlack = false;
+					Node->parent->color = BLACK;
+					u->color = BLACK;
+					Node->parent->parent->color = RED;
 					Node = Node->parent->parent;
 				}
 				else
@@ -367,13 +369,13 @@ private:
 						Node = Node->parent;
 						rightRotate(Node);
 					}
-					Node->parent->isBlack = true;
-					Node->parent->parent->isBlack = false;
+					Node->parent->color = BLACK;
+					Node->parent->parent->color = RED;
 					leftRotate(Node->parent->parent);
 				}
 			}
 		}
-		this->root->isBlack = true;
+		this->root->color = BLACK;
 	}
 
 /**
@@ -385,7 +387,7 @@ private:
 			return ;
 		nodePtr	y = Node;
 		nodePtr x = nullptr;
-		bool	orig_color = y->isBlack;
+		bool	orig_color = y->color;
 
 		if (Node->left == nil)
 		{
@@ -400,7 +402,7 @@ private:
 		else
 		{
 			y = treeMin(Node->right);
-			orig_color = y->isBlack;
+			orig_color = y->color;
 			x = y->right;
 			if (y->parent == Node)
 				x->parent = y;
@@ -413,9 +415,9 @@ private:
 			transplantNode(Node, y);
 			y->left = Node->left;
 			y->left->parent = y;
-			y->isBlack = Node->isBlack;
+			y->isBlack = Node->color;
 		}
-		if (orig_color == true)
+		if (orig_color == BLACK)
 			deleteFix(x);
 	}
 
@@ -426,35 +428,35 @@ private:
 	{
 		if (x == nullptr)
 			return ;
-		while (x != this->root && x->isBlack == true)
+		while (x != this->root && x->color == BLACK)
 		{
 			if (x == x->parent->left)
 			{
 				nodePtr	w = x->parent->right;
-				if (w->isBlack == false)
+				if (w->color == RED)
 				{
-					w->isBlack = true;
-					x->parent->isBlack = false;
+					w->color = BLACK;
+					x->parent->color = RED;
 					leftRotate(x->parent);
 					w = x->parent->right;
 				}
-				if (w->left->isBlack == true && w->right->isBlack == true)
+				if (w->left->color == BLACK && w->right->color == BLACK)
 				{
-					w->isBlack = false;
+					w->color = RED;
 					x = x->parent;
 				}
 				else
 				{
-					if (w->right->isBlack == true)
+					if (w->right->color == BLACK)
 					{
-						w->left->isBlack = true;
-						w->isBlack = false;
+						w->left->color = BLACK;
+						w->color = RED;
 						rightRotate(w);
 						w = x->parent->right;
 					}
-					w->isBlack = x->parent->isBlack;
-					x->parent->isBlack = true;
-					w->right->isBlack = true;
+					w->color = x->parent->color;
+					x->parent->color = BLACK;
+					w->right->color = BLACK;
 					leftRotate(x->parent);
 					x = this->root;
 				}
@@ -462,36 +464,36 @@ private:
 			else
 			{
 				nodePtr	w = x->parent->left;
-				if (w->isBlack == false)
+				if (w->color == RED)
 				{
-					w->isBlack = true;
-					x->parent->isBlack = false;
+					w->color = BLACK;
+					x->parent->color = RED;
 					rightRotate(x->parent);
 					w = x->parent->left;
 				}
-				if (w->right->isBlack == true && w->left->isBlack == true)
+				if (w->right->color == BLACK && w->left->color == BLACK)
 				{
-					w->isBlack = false;
+					w->color = RED;
 					x = x->parent;
 				}
 				else
 				{
-					if (w->left->isBlack == true)
+					if (w->left->color == BLACK)
 					{
-						w->right->isBlack = true;
-						w->isBlack = false;
+						w->right->color = BLACK;
+						w->color = RED;
 						leftRotate(w);
 						w = x->parent->left;
 					}
-					w->isBlack = x->parent->isBlack;
-					x->parent->isBlack = true;
-					w->left->isBlack = true;
+					w->color = x->parent->isBlack;
+					x->parent->color = BLACK;
+					w->left->color = BLACK;
 					rightRotate(x->parent);
 					x = this->root;
 				}
 			}
 		}
-		x->isBlack = true;
+		x->color = BLACK;
 	}
 
 };
