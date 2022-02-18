@@ -100,8 +100,8 @@ template <class T> class tIterator
 			return *this;
 		}
 
-		ft::Node<T>	operator*() { return *(this->n); }
-		nodePtr		operator->() { return this->n; }
+		reference	operator*() { return *(this->n); }
+		pointer		operator->() { return this->n; }
 
 		tIterator&	operator++()
 		{
@@ -156,7 +156,7 @@ public:
 
 // CONSTRUCTOR
 	// DEFAULT
-	tRevIterator() : base_iterator() { ;}
+	tRevIterator() : base_iterator() { ; }
 	// INITIALIZATION
 	explicit tRevIterator (iterator_type it) : base_iterator(it) { ;}
 	// COPY

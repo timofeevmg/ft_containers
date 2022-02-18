@@ -346,20 +346,23 @@ namespace ft
 // SWAP
 		void		swap (vector& other)
 		{
-			pointer			tmp_pointer = this->_begin;
-			size_type		tmp_capacity = this->_capacity;
-			size_type		tmp_size = this->_size;
-			allocator_type	tmp_alloc = this->A;
+			if (this != &other)
+			{
+				pointer			tmp_pointer = this->_begin;
+				size_type		tmp_capacity = this->_capacity;
+				size_type		tmp_size = this->_size;
+				allocator_type	tmp_alloc = this->A;
 
-			this->_begin = other._begin;
-			this->_capacity = other.capacity();
-			this->_size = other.size();
-			this->A = other.get_allocator();
+				this->_begin = other._begin;
+				this->_capacity = other.capacity();
+				this->_size = other.size();
+				this->A = other.get_allocator();
 
-			other._begin = tmp_pointer;
-			other._capacity = tmp_capacity;
-			other._size = tmp_size;
-			other.A = tmp_alloc;
+				other._begin = tmp_pointer;
+				other._capacity = tmp_capacity;
+				other._size = tmp_size;
+				other.A = tmp_alloc;
+			}
 		}
 
 		void		clear()
@@ -429,7 +432,8 @@ namespace ft
 		template <class T, class Alloc>
 			void	swap (vector<T,Alloc>& x, vector<T,Alloc>& y)
 		{
-			x.swap(y);
+			if (&x != &y)
+				x.swap(y);
 		}
 
 };

@@ -4,6 +4,9 @@
 #include <cstddef>
 #include <iterator>
 
+#define BLACK	true
+#define RED		false
+
 namespace ft
 {
 ///////////////////////////////////////////////////////////////////////////////
@@ -153,27 +156,27 @@ namespace ft
 // RELATIONAL OPERATORS
 	template <class T1, class T2>
 		bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-		{ return lhs.first==rhs.first && lhs.second==rhs.second; }
+		{ return lhs.first == rhs.first && lhs.second == rhs.second; }
 
 	template <class T1, class T2>
 		bool operator!= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-		{ return !(lhs==rhs); }
+		{ return !(lhs == rhs); }
 
 	template <class T1, class T2>
 		bool operator<  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-		{ return lhs.first<rhs.first || (!(rhs.first<lhs.first) && lhs.second<rhs.second); }
+		{ return lhs.first < rhs.first || (!(rhs.first < lhs.first) && lhs.second < rhs.second); }
 
 	template <class T1, class T2>
 		bool operator<= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-		{ return !(rhs<lhs); }
+		{ return !(rhs < lhs); }
 
 	template <class T1, class T2>
 		bool operator>  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-		{ return rhs<lhs; }
+		{ return rhs < lhs; }
 
 	template <class T1, class T2>
 		bool operator>= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-		{ return !(lhs<rhs); }
+		{ return !(lhs < rhs); }
 
 // MAKE PAIR
 	template <class T1,class T2>
@@ -182,26 +185,33 @@ namespace ft
 ///////////////////////////////////////////////////////////////////////////////
 //                                NODE_STRUCT                                //
 ///////////////////////////////////////////////////////////////////////////////
-	template <class V>
+	template <typename T>
 		class Node
 	{
 	public:
 		typedef Node*	nodePtr;
-		typedef	V		value_type;
+		typedef	T		value_type;
 
-		value_type	data;
+		value_type	value;
 		nodePtr		left;
 		nodePtr		right;
 		nodePtr		parent;
-		bool		isBlack;
+		bool		color;
 		bool		isNIL;
 
-		explicit Node(value_type _data = value_type()) : 
-			data(_data), left(nullptr), right(nullptr), parent(nullptr), isBlack(false), isNIL(false)
-		{ ; }
+		explicit Node(value_type value = value_type()) : 
+			value(value), left(nullptr), right(nullptr), parent(nullptr), color(RED), isNIL(false) {}
 
 		~Node() {}
 	};
+
+	template <typename T>
+	bool	operator==(const Node<T> A, const Node<T> B) 
+			{ return A.value == B.value; }
+
+	template <typename T>
+		bool	operator!=(const Node<T> A, const Node<T> B) 
+			{ return !(A == B); }
 
 ///////////////////////////////////////////////////////////////////////////////
 //                               REMOVE_CONST                                //
