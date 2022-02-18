@@ -62,6 +62,32 @@ public:
 	}
 
 /**
+ * BEGIN, END, RBEGIN, REND
+ */
+	iterator	begin() { return empty() ? iterator(nil) : iterator(treeMin(root)); }
+	// const_iterator begin() const;
+	iterator	end() { return iterator(nil); }
+	// const_iterator end() const;
+	reverse_iterator rbegin() { return reverse_iterator(empty() ? iterator(nil) : iterator(treeMax(root))); }
+	// const_reverse_iterator rbegin() const;
+	reverse_iterator rend() { return reverse_iterator(iterator(nil)); }
+	// const_reverse_iterator rend() const;
+
+
+/**
+ * SIZE, MAX_SIZE, EMPTY
+ */
+	size_type	size() { return tree_size; }
+	size_type	max_size() { return nodeA.max_size(); }
+	bool		empty() { return (!tree_size); }
+
+/**
+ * VALUE_COMP
+ */
+	value_compare	value_comp() { return comp; }
+
+
+/**
  * INSERT
  */
 	ft::pair<iterator, bool>	insert(const value_type& val)
@@ -78,6 +104,33 @@ public:
 		++tree_size;
 		return ft::make_pair(iterator(newNode), true);
 	}
+
+/**
+ * ERASE
+ */
+	void		erase(iterator position)
+	{
+		deleteNode(*position);
+		--tree_size;
+	}
+	size_type	erase(const value_type& val)
+	{
+		nodePtr	n = searchNode(val);
+		if (n == nil)
+			return 0;
+		erase(iterator(n));
+		return 1;
+	}
+	// void		erase(iterator first, iterator last);
+
+/**
+ * CLEAR
+ */
+	// void	clear()
+	// {
+
+	// 	tree_size = 0;
+	// }
 
 private:
 	void	initNilRoot()

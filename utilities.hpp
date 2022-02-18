@@ -114,7 +114,7 @@ namespace ft
 //                                   PAIR                                    //
 ///////////////////////////////////////////////////////////////////////////////
 	template <class T1, class T2> 
-		struct pair
+		class pair
 	{
 	public:
 		typedef T1			first_type;
@@ -125,16 +125,18 @@ namespace ft
 
 // CONSTRUCTOR
 //// DEFAULT
-		pair() : first(), second() {;}
+		pair() : first(), second() {}
 
 //// COPY
 		template <class U, class V> 
-			pair(const pair<U,V>& pr) : first(pr.first), second(pr.second) {;}
+			pair(const pair<U,V>& pr) : first(pr.first), second(pr.second) {}
+
+		pair(const pair& other) : first(other.first), second(other.second) {}
 
 //// INIT
-		pair(const first_type& a, const second_type& b) : first(a), second(b) {;}
+		pair(const first_type& a, const second_type& b) : first(a), second(b) {}
 
-		~pair() {;}
+		~pair() {}
 
 // =
 		pair&	operator= (const pair& pr)
@@ -200,6 +202,15 @@ namespace ft
 
 		~Node() {}
 	};
+
+///////////////////////////////////////////////////////////////////////////////
+//                               REMOVE_CONST                                //
+///////////////////////////////////////////////////////////////////////////////
+	template<class T> 
+		struct remove_const { typedef T type; };
+	
+	template<class T> 
+		struct remove_const<const T> { typedef T type; };
 
 ///////////////////////////////////////////////////////////////////////////////
 //                                CONDITIONAL                                //

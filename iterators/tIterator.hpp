@@ -11,7 +11,7 @@
 template <class T> class tIterator
 {
 	public:
-		typedef ft::Node<T>*									nodePtr;
+		typedef ft::Node<T>*								nodePtr;
 		typedef typename std::bidirectional_iterator_tag	iterator_category;
 		typedef T											value_type;
 		typedef value_type&									reference;
@@ -21,6 +21,32 @@ template <class T> class tIterator
 
 	private:
 		nodePtr		n;
+
+/**
+ * TREE_MINIMUM
+ */
+	nodePtr	treeMin(nodePtr x)
+	{
+		if (x != nullptr)
+		{
+			while (x->left->left != nullptr)
+				x = x->left;
+		}
+		return x;
+	}
+
+/**
+ * TREE_MAXIMUM
+ */
+	nodePtr	treeMax(nodePtr x)
+	{
+		if (x != nullptr)
+		{
+			while (x->right->right != nullptr)
+				x = x->right;
+		}
+		return x;
+	}
 
 /**
  * SUCCESSOR(послед. элемент)
@@ -74,10 +100,8 @@ template <class T> class tIterator
 			return *this;
 		}
 
-		nodePtr		getNodePtr() const { return this->n; }
-
-		reference	operator*() { return this->n; }
-		pointer		operator->() { return &this->n; }
+		ft::Node<T>	operator*() { return *(this->n); }
+		nodePtr		operator->() { return this->n; }
 
 		tIterator&	operator++()
 		{
@@ -107,10 +131,12 @@ template <class T> class tIterator
 };
 
 template <typename T>
-	bool	operator==(const tIterator<T> A, const tIterator<T> B) { return A.getNodePtr() == B.getNodePtr(); }
+	bool	operator==(const tIterator<T> A, const tIterator<T> B) 
+			{ return (*A) == (*B); }
 
 template <typename T>
-	bool	operator!=(const tIterator<T> A, const tIterator<T> B) { return A.getNodePtr() != B.getNodePtr(); }
+	bool	operator!=(const tIterator<T> A, const tIterator<T> B) 
+			{ return !(A == B); }
 
 ///////////////////////////////////////////////////////////////////////////////
 //                            REVERSE ITERATOR                               //
@@ -151,9 +177,10 @@ public:
 		return (*--tmp);
 	}
 
-	tRevIterator	operator+(difference_type n) const 
+	pointer				operator->() const 
 	{
-		return vRevIterator(this->base_iterator - n);
+		iterator_type	tmp = this->base_iterator;
+		return &(--tmp);
 	}
 
 	tRevIterator&	operator++() 
@@ -169,17 +196,6 @@ public:
 		return tmp;
 	}
 
-	tRevIterator&	operator+=(difference_type n)
-	{
-		this->base_iterator -= n;
-		return *this;
-	}
-
-	tRevIterator	operator-(difference_type n) const
-	{
-		return tRevIterator(this->base_iterator + n);
-	}
-
 	tRevIterator&	operator--() 
 	{
 		++this->base_iterator;
@@ -192,20 +208,6 @@ public:
 		++this->base_iterator;
 		return tmp;
 	}
-
-	tRevIterator&	operator-=(difference_type n)
-	{
-		this->base_iterator += n;
-		return *this;
-	}
-
-	pointer				operator->() const 
-	{
-		iterator_type	tmp = this->base_iterator;
-		return &(--tmp);
-	}
-
-	reference			operator[](difference_type n) const { return this->base_iterator[-n - 1]; }
 
 };
 
