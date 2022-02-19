@@ -30,7 +30,7 @@ namespace ft
 		typedef std::ptrdiff_t								difference_type;
 		typedef std::size_t									size_type;
 
-		typedef RedBlackTree<value_type, value_compare, allocator_type>	tree_type;
+		typedef RedBlackTree<value_type, key_compare, allocator_type>	tree_type;
 		typedef typename	tree_type::iterator							iterator;
 		typedef typename	tree_type::const_iterator					const_iterator;
 		typedef typename	tree_type::reverse_iterator					reverse_iterator;
