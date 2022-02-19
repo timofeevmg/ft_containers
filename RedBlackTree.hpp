@@ -33,34 +33,78 @@ public:
 
 private:
 	nodePtr			root;
-	// nodePtr			_first; /////////?????????
+	// nodePtr			_begin; ???
 	nodePtr			nil;
 	size_type		tree_size;
-	
 	value_compare	comp;
-
-
 	nodeAlloc		nodeA;
 
 public:
 /**
  * CONSTRUCTOR
  */
-	RedBlackTree() : root(nullptr), 
-					// _first(nullptr), 
+	// RedBlackTree() : root(nullptr), 
+	// 				// _begin(nullptr), ???
+	// 				nil(nullptr), 
+	// 				tree_size(0), 
+	// 				comp(), 
+	// 				nodeA()
+	// { initNilRoot(); }
+
+	RedBlackTree(const value_compare& compare = value_compare()) : 
+					root(nullptr),
+					// _begin(nullptr), ???
 					nil(nullptr), 
 					tree_size(0), 
-					comp(value_compare()), 
-					nodeA(nodeAlloc())
+					comp(compare), 
+					nodeA()
 	{ initNilRoot(); }
+
+	template <class InputIterator>
+		RedBlackTree(InputIterator first, InputIterator last, 
+					const value_compare& compare = value_compare()) : 
+						root(nullptr),
+						// _begin(nullptr), ???
+						nil(nullptr), 
+						tree_size(0), 
+						comp(compare), 
+						nodeA()
+		{
+			initNilRoot();
+			for(; first != last; ++first)
+				this->insert((*first).value);
+		}
+
+	RedBlackTree(const RedBlackTree& other) : RedBlackTree(other.compare)
+	{
+		*this = other;
+	}
 
 /**
  * DESTRUCTOR
  */
 	~RedBlackTree()
 	{
+		this->clear();
 		nodeA.destroy(nil);
 		nodeA.deallocate(nil, 1);
+	}
+
+/**
+ * =
+ */
+	RedBlackTree&	operator=(const RedBlackTree& other)
+	{
+		if (this == &other)
+			return *this;
+		this->clear();
+		if (!other.empty())
+		{
+			iterator	itb = other.begin();
+			iterator	ite = other.end();
+			for (; itb != ite; ++itb)
+				this->insert(*itb);
+		}
 	}
 
 /**
@@ -70,24 +114,23 @@ public:
 		// const_iterator begin() const;
 		iterator	end() { return iterator(nil); }
 		// const_iterator end() const;
-		// reverse_iterator rbegin() { return reverse_iterator(empty() ? iterator(nil) : iterator(treeMax(root))); }
+		reverse_iterator rbegin() { return reverse_iterator(empty() ? iterator(nil) : iterator(treeMax(root))); }
 		// const_reverse_iterator rbegin() const;
-		// reverse_iterator rend() { return reverse_iterator(iterator(nil)); }
+		reverse_iterator rend() { return reverse_iterator(iterator(nil)); }
 		// const_reverse_iterator rend() const;
 
 
 /**
  * SIZE, MAX_SIZE, EMPTY
  */
-		// size_type	size() { return tree_size; }
-		// size_type	max_size() { return nodeA.max_size(); }
+		size_type	size() { return tree_size; }
+		size_type	max_size() { return nodeA.max_size(); }
 		bool		empty() { return (!tree_size); }
 
 /**
  * VALUE_COMP
  */
-		// value_compare	value_comp() { return comp; }
-
+		value_compare	value_comp() { return comp; }
 
 /**
  * INSERT
@@ -106,6 +149,19 @@ public:
 		++tree_size;
 		return ft::make_pair(iterator(newNode), true);
 	}
+
+	iterator	insert(iterator position, const value_type& val)
+	{
+		(void)position; /////////////////////////////try to optimize with hint
+		return this->insert(val).first;
+	}
+
+	template <class InputIterator>
+		void	insert (InputIterator first, InputIterator last)
+		{
+			for (; first != last; ++first)
+				this->insert((*first).value);
+		}
 
 /**
  * ERASE
@@ -128,11 +184,12 @@ public:
 /**
  * CLEAR
  */
-		// void	clear()
-		// {
-
-		// 	tree_size = 0;
-		// }
+		void	clear()
+		{
+			deleteBranch(this->root);
+			this->tree_size = 0;
+			this->root = this->nil;
+		}
 
 private:
 	void	initNilRoot()
@@ -198,7 +255,7 @@ private:
 		nodePtr	x = this->root;
 		while (x != nil && key != x->value)
 		{
-			if (key < x->value)
+			if (comp(key,x->value))
 				x = x->left;
 			else
 				x = x->right;
@@ -306,7 +363,7 @@ private:
 		while (x != this->nil)
 		{
 			y = x;
-			if (Node->value < x->value)
+			if (comp(Node->value, x->value))
 				x = x->left;
 			else
 				x = x->right;
@@ -315,7 +372,7 @@ private:
 		Node->parent = y;
 		if (y == this->nil)
 			this->root = Node;
-		else if (Node->value < y->value)
+		else if (comp(Node->value, y->value))
 			y->left = Node;
 		else
 			y->right = Node;
@@ -494,6 +551,20 @@ private:
 			}
 		}
 		x->color = BLACK;
+	}
+
+/**
+ * DELETE_BRANCH (recursive clear nodes)
+ */
+	void	deleteBranch(nodePtr x)
+	{
+		if (x && x != nil)
+		{
+			deleteBranch(x->left);
+			deleteBranch(x->right);
+			nodeA.destroy(x);
+			nodeA.deallocate(x, 1);
+		}
 	}
 
 };

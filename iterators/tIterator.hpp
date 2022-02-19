@@ -11,13 +11,13 @@
 template <class T> class tIterator
 {
 	public:
-		typedef ft::Node<T>*								nodePtr;
-		typedef typename std::bidirectional_iterator_tag	iterator_category;
-		typedef T											value_type;
-		typedef value_type&									reference;
-		typedef value_type*									pointer;
-		typedef std::ptrdiff_t								difference_type;
-		typedef std::size_t									size_type;
+		typedef ft::Node<T>*												nodePtr;
+		typedef typename std::bidirectional_iterator_tag					iterator_category;
+		typedef typename ft::iterator_traits<nodePtr>::value_type			value_type;
+		typedef typename ft::iterator_traits<nodePtr>::difference_type		difference_type;
+		typedef typename ft::iterator_traits<nodePtr>::pointer				pointer;
+		typedef typename ft::iterator_traits<nodePtr>::reference			reference;
+		typedef std::size_t													size_type;
 
 	private:
 		nodePtr		n;
@@ -49,7 +49,7 @@ template <class T> class tIterator
 	}
 
 /**
- * SUCCESSOR(послед. элемент)
+ * SUCCESSOR(след. элемент)
  */
 	nodePtr	successor(nodePtr x)
 	{
@@ -94,14 +94,12 @@ template <class T> class tIterator
 		tIterator&	operator=(const tIterator& other)
 		{
 			if (this != &other)
-			{
 				this->n = other.n;
-			}
 			return *this;
 		}
 
-		reference	operator*() { return *(this->n); }
-		pointer		operator->() { return this->n; }
+		reference	operator*() const { return *(this->n); }
+		pointer		operator->() const { return this->n; }
 
 		tIterator&	operator++()
 		{
