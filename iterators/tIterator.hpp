@@ -137,6 +137,138 @@ template <typename T>
 			{ return !(A == B); }
 
 ///////////////////////////////////////////////////////////////////////////////
+//                              CONST_ITERATOR                               //
+///////////////////////////////////////////////////////////////////////////////
+template <class T> class const_tIterator
+{
+	public:
+		typedef ft::Node<T>*													nodePtr;
+		typedef const ft::Node<T>*												const_nodePtr;
+		typedef typename std::bidirectional_iterator_tag						iterator_category;
+		typedef typename ft::iterator_traits<const_nodePtr>::value_type			value_type;
+		typedef typename ft::iterator_traits<const_nodePtr>::difference_type	difference_type;
+		typedef typename ft::iterator_traits<const_nodePtr>::pointer			pointer;
+		typedef typename ft::iterator_traits<const_nodePtr>::reference			reference;
+		typedef std::size_t														size_type;
+
+	private:
+		nodePtr		n;
+
+/**
+ * TREE_MINIMUM
+ */
+	nodePtr	treeMin(nodePtr x)
+	{
+		if (x != nullptr)
+		{
+			while (x->left->left != nullptr)
+				x = x->left;
+		}
+		return x;
+	}
+
+/**
+ * TREE_MAXIMUM
+ */
+	nodePtr	treeMax(nodePtr x)
+	{
+		if (x != nullptr)
+		{
+			while (x->right->right != nullptr)
+				x = x->right;
+		}
+		return x;
+	}
+
+/**
+ * SUCCESSOR(след. элемент)
+ */
+	nodePtr	successor(nodePtr x)
+	{
+		if (x == nullptr)
+			return nullptr;
+		if (x->right && !x->right->isNIL)
+			return treeMin(x->right);
+		nodePtr	y = x->parent;
+		while (!y->isNIL && x == y->right)
+		{
+			x = y;
+			y = y->parent;
+		}
+		return y;
+	}
+
+/**
+ * PREDECESSOR(пред. элемент)
+ */
+	nodePtr	predecessor(nodePtr x)
+	{
+		if (x == nullptr)
+			return nullptr;
+		if (x->left && !x->left->isNIL)
+			return treeMax(x->left);
+		nodePtr	y = x->parent;
+		while (!y->isNIL && x == y->left)
+		{
+			x = y;
+			y = y->parent;
+		}
+		return y;
+	}
+
+	public:
+		const_tIterator() : n(nullptr) {}
+		const_tIterator(const nodePtr _n) : n(_n) {}
+		const_tIterator(const const_tIterator& other) : n(other.n) {}
+
+		~const_tIterator() {}
+
+		const_tIterator&	operator=(const const_tIterator& other)
+		{
+			if (this != &other)
+				this->n = other.n;
+			return *this;
+		}
+
+		reference	operator*() const { return *(this->n); }
+		pointer		operator->() const { return this->n; }
+
+		const_tIterator&	operator++()
+		{
+			this->n = successor(n);
+			return *this;
+		}
+
+		const_tIterator	operator++(int)
+		{
+			const_tIterator tmp(*this);
+			this->n = successor(n);
+			return tmp;
+		}
+
+		const_tIterator&	operator--()
+		{
+			this->n = predecessor(n);
+			return *this;
+		}
+
+		const_tIterator	operator--(int)
+		{
+			const_tIterator tmp(*this);
+			this->n = predecessor(n);
+			return tmp;
+		}
+};
+
+template <typename T>
+	bool	operator==(const const_tIterator<T> A, const const_tIterator<T> B) 
+			{ return (*A) == (*B); }
+
+template <typename T>
+	bool	operator!=(const const_tIterator<T> A, const const_tIterator<T> B) 
+			{ return !(A == B); }
+
+///////////////////////////////////////////////////////////////////////////////
 //                            REVERSE ITERATOR                               //
 ///////////////////////////////////////////////////////////////////////////////
 template <class tIterator> class tRevIterator
