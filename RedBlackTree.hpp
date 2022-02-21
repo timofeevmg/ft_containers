@@ -27,7 +27,7 @@ public:
 	typedef std::size_t			size_type;
 
 	typedef tIterator<value_type>						iterator;
-	typedef tIterator<const value_type>					const_iterator;
+	typedef const_tIterator<value_type>					const_iterator;
 	typedef tRevIterator<iterator>						reverse_iterator;
 	typedef tRevIterator<const_iterator>				const_reverse_iterator;
 
@@ -98,22 +98,25 @@ public:
 		if (this == &other)
 			return *this;
 		this->clear();
+		this->comp = other.comp;
+		this->nodeA = other.nodeA;
 		if (!other.empty())
 		{
-			iterator	itb = other.begin();
-			iterator	ite = other.end();
+			const_iterator	itb = other.begin();
+			const_iterator	ite = other.end();
 			for (; itb != ite; ++itb)
-				this->insert(*itb);
+				this->insert((*itb).value);
 		}
+		return *this;
 	}
 
 /**
  * BEGIN, END, RBEGIN, REND
  */
-		iterator	begin() { return empty() ? iterator(nil) : iterator(treeMin(root)); }
-		// const_iterator begin() const;
-		iterator	end() { return iterator(nil); }
-		// const_iterator end() const;
+		iterator		begin() { return empty() ? iterator(nil) : iterator(treeMin(root)); }
+		const_iterator	begin() const { return empty() ? const_iterator(nil) : const_iterator(treeMin(root)); }
+		iterator		end() { return iterator(nil); }
+		const_iterator	end() const { return const_iterator(nil); }
 		reverse_iterator rbegin() { return reverse_iterator(empty() ? iterator(nil) : iterator(treeMax(root))); }
 		// const_reverse_iterator rbegin() const;
 		reverse_iterator rend() { return reverse_iterator(iterator(nil)); }
@@ -123,14 +126,9 @@ public:
 /**
  * SIZE, MAX_SIZE, EMPTY
  */
-		size_type	size() { return tree_size; }
-		size_type	max_size() { return nodeA.max_size(); }
-		bool		empty() { return (!tree_size); }
-
-/**
- * VALUE_COMP
- */
-		value_compare	value_comp() { return comp; }
+		size_type	size() const { return this->tree_size; }
+		size_type	max_size() const { return nodeA.max_size(); }
+		bool		empty() const { return (!this->tree_size); }
 
 /**
  * INSERT
@@ -157,7 +155,8 @@ public:
 	}
 
 	template <class InputIterator>
-		void	insert (InputIterator first, InputIterator last)
+		void	insert(InputIterator first, InputIterator last, 
+						typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
 		{
 			for (; first != last; ++first)
 				this->insert((*first).value);
@@ -166,30 +165,73 @@ public:
 /**
  * ERASE
  */
-		// void		erase(iterator position)
-		// {
-		// 	deleteNode(*position);
-		// 	--tree_size;
-		// }
-		// size_type	erase(const value_type& val)
-		// {
-		// 	nodePtr	n = searchNode(val);
-		// 	if (n == nil)
-		// 		return 0;
-		// 	erase(iterator(n));
-		// 	return 1;
-		// }
-		// void		erase(iterator first, iterator last);
+	void		erase(iterator position)
+	{
+		deleteNode(&(*position));
+		--tree_size;
+	}
+	
+	size_type	erase(const value_type& val)
+	{
+		nodePtr	n = searchNode(val);
+		if (n == nil)
+			return 0;
+		this->erase(iterator(n));
+		return 1;
+	}
+
+	template <class InputIterator>
+		void		erase(InputIterator first, InputIterator last, 
+							typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
+		{
+			for (; first != last; ++first)
+				this->erase(first);
+		}
+
+/**
+ * SWAP
+ */
+	void	swap(RedBlackTree& other)
+	{
+		std::swap(this->root, other.root);
+		std::swap(this->nil, other.nil);
+		std::swap(this->tree_size, other.tree_size);
+		std::swap(this->comp, other.comp);
+		std::swap(this->nodeA, other.nodeA);
+	}
 
 /**
  * CLEAR
  */
-		void	clear()
-		{
-			deleteBranch(this->root);
-			this->tree_size = 0;
-			this->root = this->nil;
-		}
+	void	clear()
+	{
+		deleteBranch(this->root);
+		this->tree_size = 0;
+		this->root = this->nil;
+	}
+
+/**
+ * VALUE_COMP
+ */
+	value_compare	value_comp() const { return this->comp; }
+
+/**
+ * FIND
+ */
+	iterator	find(const value_type& val)
+	{
+		nodePtr	n = searchNode(val);
+		return (n == nil) ? this->end() : iterator(n);
+	}
+
+/**
+ * COUNT
+ */
+	size_type	count(const value_type& val)
+	{
+		nodePtr	n = searchNode(val);
+		return (n == nil) ? 0 : 1;
+	}
 
 private:
 	void	initNilRoot()
@@ -210,7 +252,7 @@ private:
 /**
  * TREE_MINIMUM
  */
-	nodePtr	treeMin(nodePtr x)
+	nodePtr	treeMin(nodePtr x) const
 	{
 		if (x != nullptr)
 		{
@@ -472,7 +514,7 @@ private:
 			transplantNode(Node, y);
 			y->left = Node->left;
 			y->left->parent = y;
-			y->isBlack = Node->color;
+			y->color = Node->color;
 		}
 		if (orig_color == BLACK)
 			deleteFix(x);
@@ -542,7 +584,7 @@ private:
 						leftRotate(w);
 						w = x->parent->left;
 					}
-					w->color = x->parent->isBlack;
+					w->color = x->parent->color;
 					x->parent->color = BLACK;
 					w->left->color = BLACK;
 					rightRotate(x->parent);
