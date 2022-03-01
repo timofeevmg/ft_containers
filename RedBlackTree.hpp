@@ -75,7 +75,7 @@ public:
 				this->insert((*first).value);
 		}
 
-	RedBlackTree(const RedBlackTree& other) : RedBlackTree(other.compare)
+	RedBlackTree(const RedBlackTree& other) : RedBlackTree(other.comp)
 	{
 		*this = other;
 	}
@@ -145,6 +145,7 @@ public:
 		newNode->right = nil;
 		insertNode(newNode);
 		++tree_size;
+		this->nil->parent = treeMax(this->root); //////////////////////ADDED
 		return ft::make_pair(iterator(newNode), true);
 	}
 
@@ -169,6 +170,10 @@ public:
 	{
 		deleteNode(&(*position));
 		--tree_size;
+		if (!this->empty())
+		{
+			this->nil->parent = treeMax(this->root); //////////////////////ADDED
+		}
 	}
 	
 	size_type	erase(const value_type& val)
@@ -208,6 +213,7 @@ public:
 		deleteBranch(this->root);
 		this->tree_size = 0;
 		this->root = this->nil;
+		this->nil->parent = nullptr;
 	}
 
 /**
@@ -232,6 +238,34 @@ public:
 		nodePtr	n = searchNode(val);
 		return (n == nil) ? 0 : 1;
 	}
+
+/**
+ * LOWER_/UPPER_BOUND
+ */
+	iterator	lower_bound(const value_type& val)
+	{
+		iterator	first = begin();
+		iterator	last = end();
+		for (; first != last; ++first)
+		{
+			if (!this->comp(val, (*first).value))
+				return first;
+		}
+		return last;
+	}
+
+	iterator	upper_bound(const value_type& val)
+	{
+		iterator	first = begin();
+		iterator	last = end();
+		for (; first != last; ++first)
+		{
+			if (this->comp(val, (*first).value))
+				return first;
+		}
+		return last;
+	}
+
 
 private:
 	void	initNilRoot()
