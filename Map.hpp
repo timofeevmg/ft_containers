@@ -13,7 +13,7 @@ namespace ft
  * //                                   MAP                                     //
  * ///////////////////////////////////////////////////////////////////////////////
  */
-	template <class Key, class T, class Compare = std::less<Key>,
+	template <class Key, class T, class Compare = std::less<Key>, 
 			class Alloc = std::allocator<ft::pair<const Key, T> > > 
 		class map
 	{
@@ -55,9 +55,9 @@ namespace ft
 	public:
 // CONSTRUCTOR
 //// empty
-		map(const key_compare& comp = key_compare(),
+		explicit map(const key_compare& comp = key_compare(),
 					const allocator_type& alloc = allocator_type()) : 
-					_tree(tree_type(comp, alloc), _key_comp(comp)) {}
+					_tree(tree_type(comp, alloc)), _key_comp(comp) {}
 
 //// range
 		template <class InputIterator>
@@ -70,13 +70,14 @@ namespace ft
 		}
 
 //// copy
-		map(const map& x)
+		map(const map& other) : _tree(other._tree), _key_comp(other._key_comp)
 		{
-			
 		}
 
 // DESTRUCTOR
-		~map() {}
+		~map()
+		{
+		}
 
 
 // =
@@ -107,7 +108,9 @@ namespace ft
 
 // []
 		mapped_type&	operator[](const key_type& k)
+		{
 			return (*((this->insert(ft::make_pair(k,mapped_type()))).first)).second;
+		}
 
 // MODIFIERS
 /**
@@ -218,16 +221,21 @@ namespace ft
  */
 		pair<const_iterator,const_iterator>	equal_range(const key_type& k) const
 		{
-			return this->_tree.equal_range(ft::make_pair(k, mapped_type()));
+			ft::pair<key_type, mapped_type>	p = ft::make_pair(k, mapped_type());
+			return ft::make_pair(this->_tree.lower_bound(p), this->_tree.upper_bound(p));
+			//return this->_tree.equal_range(ft::make_pair(k, mapped_type()));
 		}
 		pair<iterator,iterator>				equal_range(const key_type& k)
 		{
-			return this->_tree.equal_range(ft::make_pair(k, mapped_type()));
+			ft::pair<key_type, mapped_type>	p = ft::make_pair(k, mapped_type());
+			return ft::make_pair(this->_tree.lower_bound(p), this->_tree.upper_bound(p));
+			//return this->_tree.equal_range(ft::make_pair(k, mapped_type()));
 		}
 
 // ALLOCATOR
 		allocator_type	get_allocator() const { return this->A;}
 	};
-}
+
+};
 
 #endif

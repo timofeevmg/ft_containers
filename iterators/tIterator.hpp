@@ -73,6 +73,8 @@ template <class T> class tIterator
 	{
 		if (x == nullptr)
 			return nullptr;
+		if (x->isNIL)
+			return x->parent; //////////////////////////////////ADDED
 		if (x->left && !x->left->isNIL)
 			return treeMax(x->left);
 		nodePtr	y = x->parent;
