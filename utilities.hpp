@@ -192,22 +192,22 @@ namespace ft
 		typedef Node*	nodePtr;
 		typedef	T		value_type;
 
-		value_type	value;
+		value_type*	value;
 		nodePtr		left;
 		nodePtr		right;
 		nodePtr		parent;
 		bool		color;
 		bool		isNIL;
 
-		explicit Node(value_type value = value_type()) : 
-			value(value), left(nullptr), right(nullptr), parent(nullptr), color(RED), isNIL(false) {}
+		explicit Node(value_type* val = nullptr) : 
+			value(val), left(nullptr), right(nullptr), parent(nullptr), color(RED), isNIL(false) {}
 
 		~Node() {}
 	};
 
 	template <typename T>
 	bool	operator==(const Node<T> A, const Node<T> B) 
-			{ return A.value == B.value; }
+			{ return *(A.value) == *(B.value); }
 
 	template <typename T>
 		bool	operator!=(const Node<T> A, const Node<T> B) 
