@@ -6,17 +6,16 @@
 #include "iterators/tIterator.hpp"
 
 
-template <class V, class Compare = std::less<V>, class Allocator = std::allocator<V> > 
+template <class Value, class Compare = std::less<Value>, class Alloc = std::allocator<Value> > 
 	class RedBlackTree
 {
 public:
-	typedef V					value_type;
-	typedef Compare				value_compare;
-	typedef Allocator			allocator_type;
+	typedef Value			value_type;
+	typedef Compare			value_compare;
+	typedef Alloc			allocator_type;
 
-	typedef	ft::Node<V>											Node;
-	typedef	Node*												nodePtr;
-	typedef typename Allocator::template rebind<Node>::other	nodeAlloc;
+	typedef typename Alloc::template rebind<ft::Node<value_type> >::other	nodeAlloc;
+	typedef typename nodeAlloc::pointer										nodePtr;
 
 	typedef typename allocator_type::reference			reference;
 	typedef typename allocator_type::const_reference	const_reference;
@@ -27,58 +26,69 @@ public:
 	typedef std::size_t			size_type;
 
 	typedef tIterator<value_type>						iterator;
-	typedef const_tIterator<value_type>					const_iterator;
+	typedef tIterator<const value_type>					const_iterator;
 	typedef tRevIterator<iterator>						reverse_iterator;
 	typedef tRevIterator<const_iterator>				const_reverse_iterator;
 
 private:
-	nodePtr			root;
+	nodePtr			_root;
 	// nodePtr			_begin; ???
-	nodePtr			nil;
-	size_type		tree_size;
-	value_compare	comp;
-	nodeAlloc		nodeA;
+	nodePtr			_nil;
+	size_type		_size;
+	value_compare	_compare;
+	allocator_type	_valA;
+	nodeAlloc		_nodeA;
 
 public:
 /**
  * CONSTRUCTOR
  */
-	// RedBlackTree() : root(nullptr), 
+	// RedBlackTree() : 
+	// 				_root(nullptr), 
 	// 				// _begin(nullptr), ???
-	// 				nil(nullptr), 
-	// 				tree_size(0), 
-	// 				comp(), 
-	// 				nodeA()
+	// 				_nil(nullptr), 
+	// 				_size(0), 
+	// 				_compare(), 
+	// 				_valA(), 
+	// 				_nodeA() 
 	// { initNilRoot(); }
 
-	RedBlackTree(const value_compare& compare = value_compare()) : 
-					root(nullptr),
+	RedBlackTree(const value_compare& c, const allocator_type& alloc = allocator_type()) : 
+					_root(nullptr),
 					// _begin(nullptr), ???
-					nil(nullptr), 
-					tree_size(0), 
-					comp(compare), 
-					nodeA()
+					_nil(nullptr), 
+					_size(0), 
+					_compare(c), 
+					_valA(alloc), 
+					_nodeA(nodeAlloc())
 	{ initNilRoot(); }
 
-	template <class InputIterator>
-		RedBlackTree(InputIterator first, InputIterator last, 
-					const value_compare& compare = value_compare()) : 
-						root(nullptr),
-						// _begin(nullptr), ???
-						nil(nullptr), 
-						tree_size(0), 
-						comp(compare), 
-						nodeA()
-		{
-			initNilRoot();
-			for(; first != last; ++first)
-				this->insert((*first).value);
-		}
+	// template <class InputIterator>
+	// 	RedBlackTree(InputIterator first, InputIterator last, 
+	// 				const value_compare& c = value_compare()) : 
+	// 					_root(nullptr),
+	// 					// _begin(nullptr), ???
+	// 					_nil(nullptr), 
+	// 					_size(0), 
+	// 					_compare(c), 
+	// 					_valA(), 
+	// 					_nodeA(nodeAlloc())
+	// 	{
+	// 		initNilRoot();
+	// 		for(; first != last; ++first)
+	// 			this->insert((*first).value);
+	// 	}
 
-	RedBlackTree(const RedBlackTree& other) : RedBlackTree(other.comp)
-	{
-		*this = other;
-	}
+	// RedBlackTree(const RedBlackTree& other) : 
+	// 				_root(nullptr),
+	// 				// _begin(nullptr), ???
+	// 				_nil(nullptr), 
+	// 				_size(0), 
+	// 				_compare(other._compare)
+	// {
+	// 	initNilRoot();
+	// 	*this = other;
+	// }
 
 /**
  * DESTRUCTOR
@@ -86,49 +96,50 @@ public:
 	~RedBlackTree()
 	{
 		this->clear();
-		nodeA.destroy(nil);
-		nodeA.deallocate(nil, 1);
+		_nodeA.destroy(_nil);
+		_nodeA.deallocate(_nil, 1);
 	}
 
 /**
  * =
  */
-	RedBlackTree&	operator=(const RedBlackTree& other)
-	{
-		if (this == &other)
-			return *this;
-		this->clear();
-		this->comp = other.comp;
-		this->nodeA = other.nodeA;
-		if (!other.empty())
-		{
-			const_iterator	itb = other.begin();
-			const_iterator	ite = other.end();
-			for (; itb != ite; ++itb)
-				this->insert((*itb).value);
-		}
-		return *this;
-	}
+	// RedBlackTree&	operator=(const RedBlackTree& other)
+	// {
+	// 	if (this == &other)
+	// 		return *this;
+	// 	this->clear();
+	// 	_compare = other._compare;
+	// 	_nodeA = other._nodeA;
+	// 	_valA = other._valA;
+	// 	if (!other.empty())
+	// 	{
+	// 		const_iterator	itb = other.begin();
+	// 		const_iterator	ite = other.end();
+	// 		for (; itb != ite; ++itb)
+	// 			this->insert((*itb).value);
+	// 	}
+	// 	return *this;
+	// }
 
 /**
  * BEGIN, END, RBEGIN, REND
  */
-		iterator		begin() { return empty() ? iterator(nil) : iterator(treeMin(root)); }
-		const_iterator	begin() const { return empty() ? const_iterator(nil) : const_iterator(treeMin(root)); }
-		iterator		end() { return iterator(nil); }
-		const_iterator	end() const { return const_iterator(nil); }
-		reverse_iterator rbegin() { return reverse_iterator(empty() ? iterator(nil) : iterator(treeMax(root))); }
+		// iterator		begin() { return empty() ? iterator(_nil) : iterator(treeMin(_root)); }
+		// const_iterator	begin() const { return empty() ? const_iterator(_nil) : const_iterator(treeMin(_root)); }
+		// iterator		end() { return iterator(_nil); }
+		// const_iterator	end() const { return const_iterator(_nil); }
+		// reverse_iterator rbegin() { return reverse_iterator(empty() ? iterator(_nil) : iterator(treeMax(_root))); }
 		// const_reverse_iterator rbegin() const;
-		reverse_iterator rend() { return reverse_iterator(iterator(nil)); }
+		// reverse_iterator rend() { return reverse_iterator(iterator(_nil)); }
 		// const_reverse_iterator rend() const;
 
 
 /**
  * SIZE, MAX_SIZE, EMPTY
  */
-		size_type	size() const { return this->tree_size; }
-		size_type	max_size() const { return nodeA.max_size(); }
-		bool		empty() const { return (!this->tree_size); }
+		size_type	size() const { return _size; }
+		size_type	max_size() const { return _nodeA.max_size(); }
+		bool		empty() const { return (!_size); }
 
 /**
  * INSERT
@@ -136,73 +147,74 @@ public:
 	ft::pair<iterator, bool>	insert(const value_type& val)
 	{
 		nodePtr	existNode = searchNode(val);
-		if (existNode != nil)
+		if (existNode != _nil)
 			return ft::pair<iterator, bool>(iterator(existNode), false);
 		
-		nodePtr	newNode = nodeA.allocate(1);
-		nodeA.construct(newNode, Node(val));
-		newNode->left = nil;
-		newNode->right = nil;
+		nodePtr	newNode = _nodeA.allocate(1);
+		_nodeA.construct(newNode, ft::Node<value_type>(createValue(val)));
+		newNode->left = _nil;
+		newNode->right = _nil;
 		insertNode(newNode);
-		++tree_size;
-		this->nil->parent = treeMax(this->root); //////////////////////ADDED
+		++_size;
+		_nil->parent = treeMax(_root); //////////////////////ADDED
 		return ft::make_pair(iterator(newNode), true);
 	}
 
-	iterator	insert(iterator position, const value_type& val)
-	{
-		(void)position; /////////////////////////////try to optimize with hint
-		return this->insert(val).first;
-	}
+	// iterator	insert(iterator position, const value_type& val)
+	// {
+	// 	(void)position; /////////////////////////////try to optimize with hint
+	// 	return this->insert(val).first;
+	// }
 
-	template <class InputIterator>
-		void	insert(InputIterator first, InputIterator last, 
-						typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
-		{
-			for (; first != last; ++first)
-				this->insert((*first).value);
-		}
+	// template <class InputIterator>
+	// 	void	insert(InputIterator first, InputIterator last, 
+	// 					typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
+	// 	{
+	// 		for (; first != last; ++first)
+	// 			this->insert((*first).value);
+	// 	}
 
 /**
  * ERASE
  */
-	void		erase(iterator position)
-	{
-		deleteNode(&(*position));
-		--tree_size;
-		if (!this->empty())
-		{
-			this->nil->parent = treeMax(this->root); //////////////////////ADDED
-		}
-	}
+	// void		erase(iterator position)
+	// {
+	// 	deleteNode(&(*position));
+	// 	--_size;
+	// 	if (!this->empty())
+	// 	{
+	// 		_nil->parent = treeMax(_root); //////////////////////ADDED
+	// 	}
+	// }
 	
-	size_type	erase(const value_type& val)
-	{
-		nodePtr	n = searchNode(val);
-		if (n == nil)
-			return 0;
-		this->erase(iterator(n));
-		return 1;
-	}
+	// size_type	erase(const value_type& val)
+	// {
+	// 	nodePtr	n = searchNode(val);
+	// 	if (n == _nil)
+	// 		return 0;
+	// 	this->erase(iterator(n));
+	// 	return 1;
+	// }
 
-	template <class InputIterator>
-		void		erase(InputIterator first, InputIterator last, 
-							typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
-		{
-			for (; first != last; ++first)
-				this->erase(first);
-		}
+	// template <class InputIterator>
+	// 	void		erase(InputIterator first, InputIterator last, 
+	// 						typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
+	// 	{
+	// 		for (; first != last; ++first)
+	// 			this->erase(first);
+	// 	}
 
 /**
  * SWAP
  */
 	void	swap(RedBlackTree& other)
 	{
-		std::swap(this->root, other.root);
-		std::swap(this->nil, other.nil);
-		std::swap(this->tree_size, other.tree_size);
-		std::swap(this->comp, other.comp);
-		std::swap(this->nodeA, other.nodeA);
+		std::swap(this->_root, other._root);
+		std::swap(this->_nil, other._nil);
+		std::swap(this->_size, other._size);
+		std::swap(this->_compare, other._compare);
+		std::swap(this->_valA, other._valA);
+		std::swap(this->_nodeA, other._nodeA);
 	}
 
 /**
@@ -210,25 +222,25 @@ public:
  */
 	void	clear()
 	{
-		deleteBranch(this->root);
-		this->tree_size = 0;
-		this->root = this->nil;
-		this->nil->parent = nullptr;
+		deleteBranch(_root);
+		this->_size = 0;
+		this->_root = this->_nil;
+		this->_nil->parent = nullptr;
 	}
 
 /**
  * VALUE_COMP
  */
-	value_compare	value_comp() const { return this->comp; }
+	value_compare	value_comp() const { return _compare; }
 
 /**
  * FIND
  */
-	iterator	find(const value_type& val)
-	{
-		nodePtr	n = searchNode(val);
-		return (n == nil) ? this->end() : iterator(n);
-	}
+	// iterator	find(const value_type& val)
+	// {
+	// 	nodePtr	n = searchNode(val);
+	// 	return (n == _nil) ? this->end() : iterator(n);
+	// }
 
 /**
  * COUNT
@@ -236,48 +248,56 @@ public:
 	size_type	count(const value_type& val)
 	{
 		nodePtr	n = searchNode(val);
-		return (n == nil) ? 0 : 1;
+		return (n->isNIL) ? 0 : 1;
 	}
 
 /**
  * LOWER_/UPPER_BOUND
  */
-	iterator	lower_bound(const value_type& val)
-	{
-		iterator	first = begin();
-		iterator	last = end();
-		for (; first != last; ++first)
-		{
-			if (!this->comp(val, (*first).value))
-				return first;
-		}
-		return last;
-	}
+	// iterator	lower_bound(const value_type& val)
+	// {
+	// 	iterator	first = begin();
+	// 	iterator	last = end();
+	// 	for (; first != last; ++first)
+	// 	{
+	// 		if (!_compare(val, (*first).value))
+	// 			return first;
+	// 	}
+	// 	return last;
+	// }
 
-	iterator	upper_bound(const value_type& val)
-	{
-		iterator	first = begin();
-		iterator	last = end();
-		for (; first != last; ++first)
-		{
-			if (this->comp(val, (*first).value))
-				return first;
-		}
-		return last;
-	}
+	// iterator	upper_bound(const value_type& val)
+	// {
+	// 	iterator	first = begin();
+	// 	iterator	last = end();
+	// 	for (; first != last; ++first)
+	// 	{
+	// 		if (_compare(val, (*first).value))
+	// 			return first;
+	// 	}
+	// 	return last;
+	// }
 
 
 private:
 	void	initNilRoot()
 	{
-		nil = nodeA.allocate(1);
-		nodeA.construct(nil, Node());
-		nil->isNIL = true;
-		nil->color = BLACK;
-		nil->left = nullptr;
-		nil->right = nullptr;
-		nil->parent = nullptr;
-		root = nil;
+		_nil = _nodeA.allocate(1);
+		_nodeA.construct(_nil, ft::Node<value_type>());
+		_nil->value = nullptr;
+		_nil->isNIL = true;
+		_nil->color = BLACK;
+		_nil->left = nullptr;
+		_nil->right = nullptr;
+		_nil->parent = nullptr;
+		_root = _nil;
+	}
+
+	pointer	createValue(const value_type& val)
+	{
+		pointer	newValue = _valA.allocate(1);
+		_valA.construct(newValue, val);
+		return newValue;
 	}
 
 /**
@@ -290,7 +310,7 @@ private:
 	{
 		if (x != nullptr)
 		{
-			while (x->left != nil)
+			while (x->left != _nil)
 				x = x->left;
 		}
 		return x;
@@ -303,7 +323,7 @@ private:
 	{
 		if (x != nullptr)
 		{
-			while (x->right != nil)
+			while (x->right != _nil)
 				x = x->right;
 		}
 		return x;
@@ -314,8 +334,8 @@ private:
  */
 	void	transplantNode(nodePtr u, nodePtr v)
 	{
-		if (u->parent == nil)
-			this->root = v;
+		if (u->parent == _nil)
+			_root = v;
 		else if (u == u->parent->left)
 			u->parent->left = v;
 		else
@@ -326,12 +346,12 @@ private:
 /**
  * SEARCH_NODE
  */
-	nodePtr	searchNode(int key)
+	nodePtr	searchNode(const value_type& val) const
 	{
-		nodePtr	x = this->root;
-		while (x != nil && key != x->value)
+		nodePtr	x = _root;
+		while (!x->isNIL && val != *x->value)
 		{
-			if (comp(key,x->value))
+			if (_compare(val, *x->value))
 				x = x->left;
 			else
 				x = x->right;
@@ -346,7 +366,7 @@ private:
 	{
 		if (x == nullptr)
 			return ;
-		if (x != nil)
+		if (x != _nil)
 		{
 			inorderWalk(x->left);
 			inorderWalk(x->right);
@@ -360,10 +380,10 @@ private:
 	{
 		if (x == nullptr)
 			return nullptr;
-		if (x->right != nil)
+		if (x->right != _nil)
 			return treeMin(x->right);
 		nodePtr	y = x->parent;
-		while (y != nil && x == y->right)
+		while (y != _nil && x == y->right)
 		{
 			x = y;
 			y = y->parent;
@@ -378,10 +398,10 @@ private:
 	{
 		if (x == nullptr)
 			return nullptr;
-		if (x->left != nil)
+		if (x->left != _nil)
 			return treeMax(x->left);
 		nodePtr	y = x->parent;
-		while (y != nil && x == y->left)
+		while (y != _nil && x == y->left)
 		{
 			x = y;
 			y = y->parent;
@@ -396,11 +416,11 @@ private:
 	{
 		nodePtr	y = x->right;
 		x->right = y->left;
-		if (y->left != nil)
+		if (y->left != _nil)
 			y->left->parent = x;
 		y->parent = x->parent;
-		if (x->parent == nil)
-			this->root = y;
+		if (x->parent == _nil)
+			_root = y;
 		else if (x == x->parent->left)
 			x->parent->left = y;
 		else
@@ -416,11 +436,11 @@ private:
 	{
 		nodePtr	y = x->left;
 		x->left = y->right;
-		if (y->right != nil)
+		if (y->right != _nil)
 			y->right->parent = x;
 		y->parent = x->parent;
-		if (x->parent == nil)
-			this->root = y;
+		if (x->parent == _nil)
+			_root = y;
 		else if (x == x->parent->right)
 			x->parent->right = y;
 		else
@@ -434,21 +454,21 @@ private:
  */
 	void	insertNode(nodePtr Node)
 	{
-		nodePtr	y = this->nil;
-		nodePtr	x = this->root;
-		while (x != this->nil)
+		nodePtr	y = _nil;
+		nodePtr	x = _root;
+		while (x != _nil)
 		{
 			y = x;
-			if (comp(Node->value, x->value))
+			if (_compare(*Node->value, *x->value))
 				x = x->left;
 			else
 				x = x->right;
 		}
 
 		Node->parent = y;
-		if (y == this->nil)
-			this->root = Node;
-		else if (comp(Node->value, y->value))
+		if (y == _nil)
+			_root = Node;
+		else if (_compare(*Node->value, *y->value))
 			y->left = Node;
 		else
 			y->right = Node;
@@ -508,7 +528,7 @@ private:
 				}
 			}
 		}
-		this->root->color = BLACK;
+		_root->color = BLACK;
 	}
 
 /**
@@ -522,12 +542,12 @@ private:
 		nodePtr x = nullptr;
 		bool	orig_color = y->color;
 
-		if (Node->left == nil)
+		if (Node->left == _nil)
 		{
 			x = Node->right;
 			transplantNode(Node, Node->right);
 		}
-		else if (Node->right == nil)
+		else if (Node->right == _nil)
 		{
 			x = Node->left;
 			transplantNode(Node, Node->left);
@@ -561,7 +581,7 @@ private:
 	{
 		if (x == nullptr)
 			return ;
-		while (x != this->root && x->color == BLACK)
+		while (x != _root && x->color == BLACK)
 		{
 			if (x == x->parent->left)
 			{
@@ -591,7 +611,7 @@ private:
 					x->parent->color = BLACK;
 					w->right->color = BLACK;
 					leftRotate(x->parent);
-					x = this->root;
+					x = _root;
 				}
 			}
 			else
@@ -622,7 +642,7 @@ private:
 					x->parent->color = BLACK;
 					w->left->color = BLACK;
 					rightRotate(x->parent);
-					x = this->root;
+					x = _root;
 				}
 			}
 		}
@@ -634,12 +654,12 @@ private:
  */
 	void	deleteBranch(nodePtr x)
 	{
-		if (x && x != nil)
+		if (x && !x->isNIL)
 		{
 			deleteBranch(x->left);
 			deleteBranch(x->right);
-			nodeA.destroy(x);
-			nodeA.deallocate(x, 1);
+			_nodeA.destroy(x);
+			_nodeA.deallocate(x, 1);
 		}
 	}
 
