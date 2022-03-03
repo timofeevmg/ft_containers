@@ -65,20 +65,13 @@ namespace ft
 			map(InputIterator first, InputIterator last,
 				const key_compare& comp = key_compare(),
 				const allocator_type& alloc = allocator_type()) : 
-				_tree(tree_type(comp, alloc)), _key_comp(comp)
-		{
-			this->_tree.insert(first, last);
-		}
+				_tree(tree_type(first, last, comp, alloc)), _key_comp(comp) {}
 
 //// copy
-		map(const map& other) : _tree(other._tree), _key_comp(other._key_comp)
-		{
-		}
+		map(const map& other) : _tree(other._tree), _key_comp(other._key_comp) {}
 
 // DESTRUCTOR
-		~map()
-		{
-		}
+		~map() {}
 
 
 // =
@@ -147,7 +140,7 @@ namespace ft
 //// KEY
 		size_type	erase(const key_type& k)
 		{
-			this->_tree(ft::make_pair(k, mapped_type()));
+			return this->_tree.erase(ft::make_pair(k, mapped_type()));
 		}
 //// RANGE
 		void		erase(iterator first, iterator last)
@@ -234,7 +227,7 @@ namespace ft
 		}
 
 // ALLOCATOR
-		allocator_type	get_allocator() const { return this->A;}
+		allocator_type	get_allocator() const { return _alloc;}
 	};
 
 };

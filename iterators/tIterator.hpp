@@ -11,16 +11,16 @@
 template <class T> class tIterator
 {
 	public:
-		typedef ft::Node<T>*												nodePtr;
-		typedef typename std::bidirectional_iterator_tag					iterator_category;
-		typedef typename ft::iterator_traits<nodePtr>::value_type			value_type;
-		typedef typename ft::iterator_traits<nodePtr>::difference_type		difference_type;
-		typedef typename ft::iterator_traits<nodePtr>::pointer				pointer;
-		typedef typename ft::iterator_traits<nodePtr>::reference			reference;
-		typedef std::size_t													size_type;
+		typedef typename std::bidirectional_iterator_tag				iterator_category;
+		typedef typename ft::iterator_traits<T*>::value_type			value_type;
+		typedef typename ft::iterator_traits<T*>::difference_type		difference_type;
+		typedef typename ft::iterator_traits<T*>::pointer				pointer;
+		typedef typename ft::iterator_traits<T*>::reference				reference;
+		typedef std::size_t												size_type;
+		typedef ft::Node<value_type>*									nodePtr;
 
 	private:
-		nodePtr		n;
+		nodePtr		_n;
 
 /**
  * TREE_MINIMUM
@@ -87,52 +87,57 @@ template <class T> class tIterator
 	}
 
 	public:
-		tIterator() : n(nullptr) {}
-		tIterator(const nodePtr _n) : n(_n) {}
-		tIterator(const tIterator& other) : n(other.n) {}
+		tIterator() : _n(nullptr) {}
+		tIterator(const nodePtr n) : _n(n) {}
+		tIterator(const tIterator& other) : _n(other._n) {}
 
 		~tIterator() {}
 
 		tIterator&	operator=(const tIterator& other)
 		{
 			if (this != &other)
-				this->n = other.n;
+				_n = other._n;
 			return *this;
 		}
 
-		reference	operator*() const { return *(this->n); }
-		pointer		operator->() const { return this->n; }
+		nodePtr	base() const
+		{
+			return _n;
+		}
+
+		reference	operator*() const { return *(_n->value); }
+		pointer		operator->() const { return _n->value; }
 
 		tIterator&	operator++()
 		{
-			this->n = successor(n);
+			_n = successor(_n);
 			return *this;
 		}
 
 		tIterator	operator++(int)
 		{
 			tIterator tmp(*this);
-			this->n = successor(n);
+			_n = successor(_n);
 			return tmp;
 		}
 
 		tIterator&	operator--()
 		{
-			this->n = predecessor(n);
+			_n = predecessor(_n);
 			return *this;
 		}
 
 		tIterator	operator--(int)
 		{
 			tIterator tmp(*this);
-			this->n = predecessor(n);
+			_n = predecessor(_n);
 			return tmp;
 		}
 };
 
 template <typename T>
 	bool	operator==(const tIterator<T> A, const tIterator<T> B) 
-			{ return (*A) == (*B); }
+			{ return (A.base() == B.base()); }
 
 template <typename T>
 	bool	operator!=(const tIterator<T> A, const tIterator<T> B) 
@@ -144,17 +149,17 @@ template <typename T>
 template <class T> class const_tIterator
 {
 	public:
-		typedef ft::Node<T>*													nodePtr;
-		typedef const ft::Node<T>*												const_nodePtr;
-		typedef typename std::bidirectional_iterator_tag						iterator_category;
-		typedef typename ft::iterator_traits<const_nodePtr>::value_type			value_type;
-		typedef typename ft::iterator_traits<const_nodePtr>::difference_type	difference_type;
-		typedef typename ft::iterator_traits<const_nodePtr>::pointer			pointer;
-		typedef typename ft::iterator_traits<const_nodePtr>::reference			reference;
-		typedef std::size_t														size_type;
+		typedef typename std::bidirectional_iterator_tag					iterator_category;
+		typedef typename ft::iterator_traits<const T*>::value_type			value_type;
+		typedef typename ft::iterator_traits<const T*>::difference_type		difference_type;
+		typedef typename ft::iterator_traits<const T*>::pointer				pointer;
+		typedef typename ft::iterator_traits<const T*>::reference			reference;
+		typedef std::size_t													size_type;
+		typedef ft::Node<value_type>*										nodePtr;
+		typedef const ft::Node<value_type>*									const_nodePtr;
 
 	private:
-		nodePtr		n;
+		nodePtr		_n;
 
 /**
  * TREE_MINIMUM
@@ -219,52 +224,57 @@ template <class T> class const_tIterator
 	}
 
 	public:
-		const_tIterator() : n(nullptr) {}
-		const_tIterator(const nodePtr _n) : n(_n) {}
-		const_tIterator(const const_tIterator& other) : n(other.n) {}
+		const_tIterator() : _n(nullptr) {}
+		const_tIterator(const nodePtr n) : _n(n) {}
+		const_tIterator(const const_tIterator& other) : _n(other._n) {}
 
 		~const_tIterator() {}
 
 		const_tIterator&	operator=(const const_tIterator& other)
 		{
 			if (this != &other)
-				this->n = other.n;
+				_n = other._n;
 			return *this;
 		}
 
-		reference	operator*() const { return *(this->n); }
-		pointer		operator->() const { return this->n; }
+		nodePtr	base() const
+		{
+			return _n;
+		}
+
+		reference	operator*() const { return *(_n->value); }
+		pointer		operator->() const { return _n->value; }
 
 		const_tIterator&	operator++()
 		{
-			this->n = successor(n);
+			_n = successor(_n);
 			return *this;
 		}
 
 		const_tIterator	operator++(int)
 		{
 			const_tIterator tmp(*this);
-			this->n = successor(n);
+			_n = successor(_n);
 			return tmp;
 		}
 
 		const_tIterator&	operator--()
 		{
-			this->n = predecessor(n);
+			_n = predecessor(_n);
 			return *this;
 		}
 
 		const_tIterator	operator--(int)
 		{
 			const_tIterator tmp(*this);
-			this->n = predecessor(n);
+			_n = predecessor(_n);
 			return tmp;
 		}
 };
 
 template <typename T>
 	bool	operator==(const const_tIterator<T> A, const const_tIterator<T> B) 
-			{ return (*A) == (*B); }
+			{ return (A.base() == B.base()); }
 
 template <typename T>
 	bool	operator!=(const const_tIterator<T> A, const const_tIterator<T> B) 
@@ -288,20 +298,20 @@ public:
 
 // CONSTRUCTOR
 	// DEFAULT
-	tRevIterator() : base_iterator() { ; }
+	tRevIterator() : base_iterator() {}
 	// INITIALIZATION
-	explicit tRevIterator (iterator_type it) : base_iterator(it) { ;}
+	explicit tRevIterator (iterator_type it) : base_iterator(it) {}
 	// COPY
 	template <class Iterator>
 		tRevIterator (const tRevIterator<Iterator>& rev_it)
 	{
-		this->base_iterator = rev_it.base_iterator;
+		base_iterator = rev_it.base_iterator;
 	}
 
 	~tRevIterator() {}
 
 // BASE
-	iterator_type	base() const { return this->base_iterator; }
+	iterator_type	base() const { return base_iterator; }
 
 	reference			operator*() const
 	{

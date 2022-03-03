@@ -63,32 +63,32 @@ public:
 					_nodeA(nodeAlloc())
 	{ initNilRoot(); }
 
-	// template <class InputIterator>
-	// 	RedBlackTree(InputIterator first, InputIterator last, 
-	// 				const value_compare& c = value_compare()) : 
-	// 					_root(nullptr),
-	// 					// _begin(nullptr), ???
-	// 					_nil(nullptr), 
-	// 					_size(0), 
-	// 					_compare(c), 
-	// 					_valA(), 
-	// 					_nodeA(nodeAlloc())
-	// 	{
-	// 		initNilRoot();
-	// 		for(; first != last; ++first)
-	// 			this->insert((*first).value);
-	// 	}
+	template <class InputIterator>
+		RedBlackTree(InputIterator first, InputIterator last, 
+					const value_compare& c, const allocator_type& alloc = allocator_type()) : 
+						_root(nullptr),
+						// _begin(nullptr), ???
+						_nil(nullptr), 
+						_size(0), 
+						_compare(c), 
+						_valA(alloc), 
+						_nodeA(nodeAlloc())
+		{
+			initNilRoot();
+			for(; first != last; ++first)
+				this->insert(*first);
+		}
 
-	// RedBlackTree(const RedBlackTree& other) : 
-	// 				_root(nullptr),
-	// 				// _begin(nullptr), ???
-	// 				_nil(nullptr), 
-	// 				_size(0), 
-	// 				_compare(other._compare)
-	// {
-	// 	initNilRoot();
-	// 	*this = other;
-	// }
+	RedBlackTree(const RedBlackTree& other) : 
+					_root(nullptr),
+					// _begin(nullptr), ???
+					_nil(nullptr), 
+					_size(0), 
+					_compare(other._compare)
+	{
+		initNilRoot();
+		*this = other;
+	}
 
 /**
  * DESTRUCTOR
@@ -103,35 +103,30 @@ public:
 /**
  * =
  */
-	// RedBlackTree&	operator=(const RedBlackTree& other)
-	// {
-	// 	if (this == &other)
-	// 		return *this;
-	// 	this->clear();
-	// 	_compare = other._compare;
-	// 	_nodeA = other._nodeA;
-	// 	_valA = other._valA;
-	// 	if (!other.empty())
-	// 	{
-	// 		const_iterator	itb = other.begin();
-	// 		const_iterator	ite = other.end();
-	// 		for (; itb != ite; ++itb)
-	// 			this->insert((*itb).value);
-	// 	}
-	// 	return *this;
-	// }
+	RedBlackTree&	operator=(const RedBlackTree& other) ////////don`t forget to change _size
+	{
+		if (this == &other)
+			return *this;
+		this->clear();
+		_compare = other._compare;
+		_nodeA = other._nodeA;
+		_valA = other._valA;
+		if (!other.empty())
+			this->insert(other.begin(), other.end());
+		return *this;
+	}
 
 /**
  * BEGIN, END, RBEGIN, REND
  */
-		// iterator		begin() { return empty() ? iterator(_nil) : iterator(treeMin(_root)); }
-		// const_iterator	begin() const { return empty() ? const_iterator(_nil) : const_iterator(treeMin(_root)); }
-		// iterator		end() { return iterator(_nil); }
-		// const_iterator	end() const { return const_iterator(_nil); }
-		// reverse_iterator rbegin() { return reverse_iterator(empty() ? iterator(_nil) : iterator(treeMax(_root))); }
-		// const_reverse_iterator rbegin() const;
-		// reverse_iterator rend() { return reverse_iterator(iterator(_nil)); }
-		// const_reverse_iterator rend() const;
+		iterator		begin() { return empty() ? iterator(_nil) : iterator(treeMin(_root)); }
+		const_iterator	begin() const { return empty() ? const_iterator(_nil) : const_iterator(treeMin(_root)); }
+		iterator		end() { return iterator(_nil); }
+		const_iterator	end() const { return const_iterator(_nil); }
+		reverse_iterator		rbegin() { return reverse_iterator(empty() ? iterator(_nil) : iterator(treeMax(_root))); }
+		const_reverse_iterator	rbegin() const;
+		reverse_iterator		rend() { return reverse_iterator(iterator(_nil)); }
+		const_reverse_iterator	rend() const;
 
 
 /**
@@ -160,49 +155,49 @@ public:
 		return ft::make_pair(iterator(newNode), true);
 	}
 
-	// iterator	insert(iterator position, const value_type& val)
-	// {
-	// 	(void)position; /////////////////////////////try to optimize with hint
-	// 	return this->insert(val).first;
-	// }
+	iterator	insert(iterator position, const value_type& val)
+	{
+		(void)position; /////////////////////////////try to optimize with hint
+		return this->insert(val);
+	}
 
-	// template <class InputIterator>
-	// 	void	insert(InputIterator first, InputIterator last, 
-	// 					typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
-	// 	{
-	// 		for (; first != last; ++first)
-	// 			this->insert((*first).value);
-	// 	}
+	template <class InputIterator>
+		void	insert(InputIterator first, InputIterator last, 
+						typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
+		{
+			for (; first != last; ++first)
+				this->insert(*first);
+		}
 
 /**
  * ERASE
  */
-	// void		erase(iterator position)
-	// {
-	// 	deleteNode(&(*position));
-	// 	--_size;
-	// 	if (!this->empty())
-	// 	{
-	// 		_nil->parent = treeMax(_root); //////////////////////ADDED
-	// 	}
-	// }
+	void		erase(iterator position)
+	{
+		deleteNode(position.base());
+		--_size;
+		if (!this->empty())
+		{
+			_nil->parent = treeMax(_root); //////////////////////ADDED
+		}
+	}
 	
-	// size_type	erase(const value_type& val)
-	// {
-	// 	nodePtr	n = searchNode(val);
-	// 	if (n == _nil)
-	// 		return 0;
-	// 	this->erase(iterator(n));
-	// 	return 1;
-	// }
+	size_type	erase(const value_type& val)
+	{
+		nodePtr	n = searchNode(val);
+		if (n->isNIL)
+			return 0;
+		this->erase(iterator(n));
+		return 1;
+	}
 
-	// template <class InputIterator>
-	// 	void		erase(InputIterator first, InputIterator last, 
-	// 						typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
-	// 	{
-	// 		for (; first != last; ++first)
-	// 			this->erase(first);
-	// 	}
+	template <class InputIterator>
+		void		erase(InputIterator first, InputIterator last, 
+							typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
+		{
+			for (; first != last; ++first)
+				this->erase(first);
+		}
 
 /**
  * SWAP
@@ -236,16 +231,16 @@ public:
 /**
  * FIND
  */
-	// iterator	find(const value_type& val)
-	// {
-	// 	nodePtr	n = searchNode(val);
-	// 	return (n == _nil) ? this->end() : iterator(n);
-	// }
+	iterator	find(const value_type& val)
+	{
+		nodePtr	n = searchNode(val);
+		return (n->isNIL) ? this->end() : iterator(n);
+	}
 
 /**
  * COUNT
  */
-	size_type	count(const value_type& val)
+	size_type	count(const value_type& val) const
 	{
 		nodePtr	n = searchNode(val);
 		return (n->isNIL) ? 0 : 1;
@@ -254,29 +249,29 @@ public:
 /**
  * LOWER_/UPPER_BOUND
  */
-	// iterator	lower_bound(const value_type& val)
-	// {
-	// 	iterator	first = begin();
-	// 	iterator	last = end();
-	// 	for (; first != last; ++first)
-	// 	{
-	// 		if (!_compare(val, (*first).value))
-	// 			return first;
-	// 	}
-	// 	return last;
-	// }
+	iterator	lower_bound(const value_type& val)
+	{
+		iterator	first = begin();
+		iterator	last = end();
+		for (; first != last; ++first)
+		{
+			if (!_compare(val, *first))
+				return first;
+		}
+		return last;
+	}
 
-	// iterator	upper_bound(const value_type& val)
-	// {
-	// 	iterator	first = begin();
-	// 	iterator	last = end();
-	// 	for (; first != last; ++first)
-	// 	{
-	// 		if (_compare(val, (*first).value))
-	// 			return first;
-	// 	}
-	// 	return last;
-	// }
+	iterator	upper_bound(const value_type& val)
+	{
+		iterator	first = begin();
+		iterator	last = end();
+		for (; first != last; ++first)
+		{
+			if (_compare(val, *first))
+				return first;
+		}
+		return last;
+	}
 
 
 private:
@@ -301,6 +296,22 @@ private:
 	}
 
 /**
+ * DELETE_BRANCH (recursive clear nodes)
+ */
+	void	deleteBranch(nodePtr x)
+	{
+		if (x && !x->isNIL)
+		{
+			deleteBranch(x->left);
+			deleteBranch(x->right);
+			_valA.destroy(x->value);
+			_valA.deallocate(x->value, 1);
+			_nodeA.destroy(x);
+			_nodeA.deallocate(x, 1);
+		}
+	}
+
+/**
  * *----------------- RBT methods --------------------*
  */
 /**
@@ -319,7 +330,7 @@ private:
 /**
  * TREE_MAXIMUM
  */
-	nodePtr	treeMax(nodePtr x)
+	nodePtr	treeMax(nodePtr x) const
 	{
 		if (x != nullptr)
 		{
@@ -349,7 +360,7 @@ private:
 	nodePtr	searchNode(const value_type& val) const
 	{
 		nodePtr	x = _root;
-		while (!x->isNIL && val != *x->value)
+		while (!x->isNIL && val.first != (*x->value).first) ////////////ADDED FOR KEY COMPARISON
 		{
 			if (_compare(val, *x->value))
 				x = x->left;
@@ -362,11 +373,11 @@ private:
 /**
  * INORDER_WALK
  */
-	void	inorderWalk(nodePtr x)
+	void	inorderWalk(nodePtr x) const
 	{
 		if (x == nullptr)
 			return ;
-		if (x != _nil)
+		if (!x->isNIL)
 		{
 			inorderWalk(x->left);
 			inorderWalk(x->right);
@@ -532,7 +543,7 @@ private:
 	}
 
 /**
- * DELETE
+ * DELETE_NODE
  */
 	void	deleteNode(nodePtr Node)
 	{
@@ -647,20 +658,6 @@ private:
 			}
 		}
 		x->color = BLACK;
-	}
-
-/**
- * DELETE_BRANCH (recursive clear nodes)
- */
-	void	deleteBranch(nodePtr x)
-	{
-		if (x && !x->isNIL)
-		{
-			deleteBranch(x->left);
-			deleteBranch(x->right);
-			_nodeA.destroy(x);
-			_nodeA.deallocate(x, 1);
-		}
 	}
 
 };
