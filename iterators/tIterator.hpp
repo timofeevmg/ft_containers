@@ -316,13 +316,13 @@ public:
 	reference			operator*() const
 	{
 		iterator_type	tmp = this->base_iterator;
-		return (*--tmp);
+		return *tmp;
 	}
 
 	pointer				operator->() const 
 	{
 		iterator_type	tmp = this->base_iterator;
-		return &(--tmp);
+		return &tmp;
 	}
 
 	tRevIterator&	operator++() 
