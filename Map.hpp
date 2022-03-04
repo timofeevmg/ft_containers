@@ -235,9 +235,10 @@ namespace ft
  * RELATIONAL_OPERATORS
  */
 	template <class Key, class T, class Compare, class Alloc>
-			bool	operator==(const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs)
+			bool	operator==(const map<Key,T,Compare,Alloc>& lhs, 
+								const map<Key,T,Compare,Alloc>& rhs)
 			{
-				return (lhs._tree == rhs._tree);
+				return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 			}
 
 	template <class Key, class T, class Compare, class Alloc>
@@ -249,7 +250,7 @@ namespace ft
 	template <class Key, class T, class Compare, class Alloc>
 			bool	operator<(const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs)
 			{
-				return (lhs._tree < rhs._tree);
+				return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 			}
 
 	template <class Key, class T, class Compare, class Alloc>

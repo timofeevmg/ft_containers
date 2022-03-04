@@ -663,25 +663,4 @@ private:
 
 };
 
-/**
- * NON-MEMBER FUNCTION OVERLOADS
- * RELATIONAL_OPERATORS
- */
-	template <class Value, class Compare, class Alloc>
-			bool	operator==(const RedBlackTree<Value, Compare, Alloc>& lhs, const RedBlackTree<Value, Compare, Alloc>& rhs)
-			{
-				return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
-			}
-
-	template <class Value, class Compare, class Alloc>
-			bool	operator<(const RedBlackTree<Value, Compare, Alloc>& lhs, const RedBlackTree<Value, Compare, Alloc>& rhs)
-			{
-				return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
-			}
-
 #endif
-
-/*
-	* перегрузить оператор сравнения двух pair по ключам
-	* rebind аллокатор с T на pair
-*/
