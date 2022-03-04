@@ -96,6 +96,8 @@ public:
 	~RedBlackTree()
 	{
 		this->clear();
+		_valA.destroy(_nil->value);
+		_valA.deallocate(_nil->value, 1);
 		_nodeA.destroy(_nil);
 		_nodeA.deallocate(_nil, 1);
 	}
@@ -262,10 +264,34 @@ public:
 		return last;
 	}
 
+	const_iterator	lower_bound(const value_type& val) const
+	{
+		const_iterator	first = begin();
+		const_iterator	last = end();
+		for (; first != last; ++first)
+		{
+			if (!_compare(val, *first))
+				return first;
+		}
+		return last;
+	}
+
 	iterator	upper_bound(const value_type& val)
 	{
 		iterator	first = begin();
 		iterator	last = end();
+		for (; first != last; ++first)
+		{
+			if (_compare(val, *first))
+				return first;
+		}
+		return last;
+	}
+
+	const_iterator	upper_bound(const value_type& val) const
+	{
+		const_iterator	first = begin();
+		const_iterator	last = end();
 		for (; first != last; ++first)
 		{
 			if (_compare(val, *first))
@@ -280,7 +306,8 @@ private:
 	{
 		_nil = _nodeA.allocate(1);
 		_nodeA.construct(_nil, ft::Node<value_type>());
-		_nil->value = nullptr;
+		_nil->value = _valA.allocate(1);
+		_valA.construct(_nil->value, value_type());
 		_nil->isNIL = true;
 		_nil->color = BLACK;
 		_nil->left = nullptr;
