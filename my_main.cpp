@@ -1,20 +1,21 @@
 #include "Vector.hpp"
 #include "Stack.hpp"
+#include "Map.hpp"
 #include <vector>
 #include <map>
 #include <iostream>
 #include <iomanip>
 #include <string>
 
-#define RESET   "\033[0m"
-#define BLACK   "\033[30m"      /* Black */
-#define RED     "\033[31m"      /* Red */
-#define GREEN   "\033[32m"      /* Green */
-#define YELLOW  "\033[33m"      /* Yellow */
-#define BLUE    "\033[34m"      /* Blue */
-#define MAGENTA "\033[35m"      /* Magenta */
-#define CYAN    "\033[36m"      /* Cyan */
-#define WHITE   "\033[37m"      /* White */
+// #define RESET   "\033[0m"
+// #define BLACK   "\033[30m"      /* Black */
+// #define RED     "\033[31m"      /* Red */
+// #define GREEN   "\033[32m"      /* Green */
+// #define YELLOW  "\033[33m"      /* Yellow */
+// #define BLUE    "\033[34m"      /* Blue */
+// #define MAGENTA "\033[35m"      /* Magenta */
+// #define CYAN    "\033[36m"      /* Cyan */
+// #define WHITE   "\033[37m"      /* White */
 
 int _ratio = 10000;
 
@@ -123,5 +124,43 @@ int		main()
 	// ft::stack<int> stack3;
 	// stack3 = stack2;
 
-	std::map<int, int>	m;
+// MAP
+	ft::map<int, int>	m;
+	m.insert(ft::pair<int, int>(1, 100));
+	m.insert(ft::pair<int, int>(2, 200));
+	m.insert(ft::pair<int, int>(3, 300));
+
+	ft::map<int, int>::reverse_iterator	rit = m.rbegin(); //должен указывать на nil(после max, последнего)
+	ft::map<int, int>::reverse_iterator	rit2 = m.rend(); //должен указывать на min(первый) элемент
+	// for (; rit != rit2; ++rit)
+	// 	std::cout << rit->first << std::endl;
+	// std::cout << rit->first << std::endl;
+	rit++;
+	rit2--; ////////итератор должен попасть на min элемент, если 
+	std::cout << rit->first << std::endl;
+	std::cout << rit2->first << std::endl;
+	rit2--;
+	std::cout << rit->first << std::endl;
+	std::cout << rit2->first << std::endl;
+	std::cout << (*rit2 > *rit) << std::endl;
+	std::cout << (*rit2 < *rit) << std::endl;
+	std::cout << (--rit)->first << std::endl;
+	std::cout << (++rit2)->first << std::endl;
+	std::cout << (rit--)->first << std::endl;
+	std::cout << (rit2++)->first << std::endl;
+
+	// std::map<int, int>	m;
+	// m.insert(std::pair<int, int>(1, 100));
+	// m.insert(std::pair<int, int>(2, 200));
+	// m.insert(std::pair<int, int>(3, 300));
+
+	// std::map<int, int>::reverse_iterator	rit = m.rbegin();
+	// std::map<int, int>::reverse_iterator	rit2 = m.rend();
+	// std::cout << rit->first << std::endl;
+	// rit++;
+	// rit2--;
+	// std::cout << rit->first << std::endl;
+	// std::cout << rit2->first << std::endl;
+
+	return 0;
 };
