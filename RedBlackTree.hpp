@@ -123,10 +123,11 @@ public:
 		const_iterator	begin() const { return empty() ? const_iterator(_nil) : const_iterator(treeMin(_root)); }
 		iterator		end() { return iterator(_nil); }
 		const_iterator	end() const { return const_iterator(_nil); }
-		reverse_iterator		rbegin() { return reverse_iterator(empty() ? iterator(_nil) : iterator(treeMax(_root))); }
-		const_reverse_iterator	rbegin() const;
-		reverse_iterator		rend() { return reverse_iterator(iterator(_nil)); }
-		const_reverse_iterator	rend() const;
+
+		reverse_iterator		rbegin() { return reverse_iterator(end()); }
+		const_reverse_iterator	rbegin() const  { return const_reverse_iterator(end()); }
+		reverse_iterator		rend() { return reverse_iterator(begin()); }
+		const_reverse_iterator	rend() const { return const_reverse_iterator(begin()); }
 
 
 /**
@@ -661,6 +662,22 @@ private:
 	}
 
 };
+
+/**
+ * NON-MEMBER FUNCTION OVERLOADS
+ * RELATIONAL_OPERATORS
+ */
+	template <class Value, class Compare, class Alloc>
+			bool	operator==(const RedBlackTree<Value, Compare, Alloc>& lhs, const RedBlackTree<Value, Compare, Alloc>& rhs)
+			{
+				return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+			}
+
+	template <class Value, class Compare, class Alloc>
+			bool	operator<(const RedBlackTree<Value, Compare, Alloc>& lhs, const RedBlackTree<Value, Compare, Alloc>& rhs)
+			{
+				return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+			}
 
 #endif
 

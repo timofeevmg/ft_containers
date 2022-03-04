@@ -285,6 +285,12 @@ public:
 		return (*--tmp);
 	}
 
+	pointer				operator->() const 
+	{
+		iterator_type	tmp = this->base_iterator;
+		return &(--tmp);
+	}
+
 	vRevIterator	operator+(difference_type n) const 
 	{
 		return vRevIterator(this->base_iterator - n);
@@ -331,12 +337,6 @@ public:
 	{
 		this->base_iterator += n;
 		return *this;
-	}
-
-	pointer				operator->() const 
-	{
-		iterator_type	tmp = this->base_iterator;
-		return &(--tmp);
 	}
 
 	reference			operator[](difference_type n) const { return this->base_iterator[-n - 1]; }
