@@ -119,7 +119,7 @@ namespace ft
 		iterator			insert(iterator position, const value_type& val)
 		{
 			(void)position; //////////////////////try to optimize with hint
-			return this->insert(val);
+			return (this->insert(val)).first;
 		}
 //// range
 		template <class InputIterator>
@@ -213,13 +213,13 @@ namespace ft
 /**
  * EQUAL_RANGE
  */
-		pair<const_iterator,const_iterator>	equal_range(const key_type& k) const
+		ft::pair<const_iterator,const_iterator>	equal_range(const key_type& k) const
 		{
 			ft::pair<key_type, mapped_type>	p = ft::make_pair(k, mapped_type());
 			return ft::make_pair(this->_tree.lower_bound(p), this->_tree.upper_bound(p));
 			//return this->_tree.equal_range(ft::make_pair(k, mapped_type()));
 		}
-		pair<iterator,iterator>				equal_range(const key_type& k)
+		ft::pair<iterator,iterator>				equal_range(const key_type& k)
 		{
 			ft::pair<key_type, mapped_type>	p = ft::make_pair(k, mapped_type());
 			return ft::make_pair(this->_tree.lower_bound(p), this->_tree.upper_bound(p));

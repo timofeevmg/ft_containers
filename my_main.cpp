@@ -125,42 +125,51 @@ int		main()
 	// stack3 = stack2;
 
 // MAP
-	ft::map<int, int>	m;
-	m.insert(ft::pair<int, int>(1, 100));
-	m.insert(ft::pair<int, int>(2, 200));
-	m.insert(ft::pair<int, int>(3, 300));
+	ft::map<int, int>	mp;
+    std::vector<int>	v;
+    ft::map<int, int, std::greater<int> >	mp2;
+    mp.insert(ft::make_pair(10, 10));
+    mp2.insert(ft::make_pair(10, 10));
+    if (mp.lower_bound(11) == mp.end())
+        v.push_back(1);
+    if (mp2.lower_bound(1) == mp2.end())
+        v.push_back(1);
+    mp.insert(ft::make_pair(20, 20));
+    mp.insert(ft::make_pair(30, 30));
+    mp.insert(ft::make_pair(40, 40));
+    mp.insert(ft::make_pair(50, 50));
+    mp.insert(ft::make_pair(60, 60));
+    mp2.insert(ft::make_pair(20, 20));
+    mp2.insert(ft::make_pair(30, 30));
+    mp2.insert(ft::make_pair(40, 40));
+    mp2.insert(ft::make_pair(50, 50));
+    mp2.insert(ft::make_pair(60, 60));
+    ft::map<int, int>::iterator	it;
+    for (int i = 1; i < 60; i += 10) {
+        it = mp.lower_bound(i);
+        v.push_back(it->first);
+    }
+    for (int i = 11; i < 70; i += 10) {
+        it = mp2.lower_bound(i);
+        v.push_back(it->first);
+    }
+    ft::map<int, int> mp3;
+    for (int i = 0, j = 0; i < 50 * _ratio; ++i, ++j) {
+        mp3.insert(ft::make_pair(i, j));
+    }
 
-	ft::map<int, int>::reverse_iterator	rit = m.rbegin(); //должен указывать на nil(после max, последнего)
-	ft::map<int, int>::reverse_iterator	rit2 = m.rend(); //должен указывать на min(первый) элемент
-	// for (; rit != rit2; ++rit)
-	// 	std::cout << rit->first << std::endl;
-	// std::cout << rit->first << std::endl;
-	rit++;
-	rit2--; ////////итератор должен попасть на min элемент, если 
-	std::cout << rit->first << std::endl;
-	std::cout << rit2->first << std::endl;
-	rit2--;
-	std::cout << rit->first << std::endl;
-	std::cout << rit2->first << std::endl;
-	std::cout << (*rit2 > *rit) << std::endl;
-	std::cout << (*rit2 < *rit) << std::endl;
-	std::cout << (--rit)->first << std::endl;
-	std::cout << (++rit2)->first << std::endl;
-	std::cout << (rit--)->first << std::endl;
-	std::cout << (rit2++)->first << std::endl;
+    mp3.lower_bound(49 *_ratio);
+
 
 	// std::map<int, int>	m;
 	// m.insert(std::pair<int, int>(1, 100));
 	// m.insert(std::pair<int, int>(2, 200));
 	// m.insert(std::pair<int, int>(3, 300));
+	// m.insert(std::pair<int, int>(4, 400));
 
-	// std::map<int, int>::reverse_iterator	rit = m.rbegin();
-	// std::map<int, int>::reverse_iterator	rit2 = m.rend();
-	// std::cout << rit->first << std::endl;
-	// rit++;
-	// rit2--;
-	// std::cout << rit->first << std::endl;
-	// std::cout << rit2->first << std::endl;
+	// std::map<int, int>::iterator	it;
+	// it = m.lower_bound(10);
+	// std::cout << it->first << std::endl;
 
 	return 0;
 };
