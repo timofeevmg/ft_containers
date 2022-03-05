@@ -177,7 +177,9 @@ public:
  */
 	void		erase(iterator position)
 	{
-		deleteNode(position.base());
+		nodePtr	_free = position.base();
+		freeNode(_free);
+		deleteNode(_free);
 		--_size;
 		if (!this->empty())
 		{
@@ -250,7 +252,7 @@ public:
 	}
 
 /**
- * LOWER_/UPPER_BOUND
+ * LOWER_/UPPER_BOUND/EQUAL_RANGE
  */
 	iterator	lower_bound(const value_type& val)
 	{
@@ -300,6 +302,16 @@ public:
 		return last;
 	}
 
+	// ft::pair<iterator, iterator>	equal_range(const value_type& val)
+	// {
+	// 	return ft::make_pair(lower_bound(val), upper_bound(val));
+	// }
+
+	// ft::pair<const_iterator, const_iterator>	equal_range(const value_type& val) const
+	// {
+	// 	return ft::make_pair(lower_bound(val), upper_bound(val));
+	// }
+
 
 private:
 	void	initNilRoot()
@@ -321,6 +333,14 @@ private:
 		pointer	newValue = _valA.allocate(1);
 		_valA.construct(newValue, val);
 		return newValue;
+	}
+
+	void	freeNode(nodePtr f)
+	{
+		_valA.destroy(f->value);
+		_valA.deallocate(f->value, 1);
+		_nodeA.destroy(f);
+		_nodeA.deallocate(f, 1);
 	}
 
 /**
