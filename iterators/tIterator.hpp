@@ -227,6 +227,7 @@ template <class T> class const_tIterator
 		const_tIterator() : _n(nullptr) {}
 		const_tIterator(const nodePtr n) : _n(n) {}
 		const_tIterator(const const_tIterator& other) : _n(other._n) {}
+		const_tIterator(const tIterator<T>& other) : _n(other._n) {}
 
 		~const_tIterator() {}
 
