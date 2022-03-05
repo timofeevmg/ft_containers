@@ -89,7 +89,7 @@ template <class T> class tIterator
 	public:
 		tIterator() : _n(nullptr) {}
 		tIterator(const nodePtr n) : _n(n) {}
-		tIterator(const tIterator& other) : _n(other._n) {}
+		tIterator(const tIterator<typename ft::remove_const<value_type>::type>& other) : _n(other.base()) {}
 
 		~tIterator() {}
 
