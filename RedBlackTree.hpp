@@ -260,7 +260,7 @@ public:
 		iterator	last = end();
 		for (; first != last; ++first)
 		{
-			if (!_compare(val, *first))
+			if (!_compare(*first, val))
 				return first;
 		}
 		return last;
@@ -272,7 +272,7 @@ public:
 		const_iterator	last = end();
 		for (; first != last; ++first)
 		{
-			if (!_compare(val, *first))
+			if (!_compare(*first, val))
 				return first;
 		}
 		return last;
@@ -301,17 +301,6 @@ public:
 		}
 		return last;
 	}
-
-	// ft::pair<iterator, iterator>	equal_range(const value_type& val)
-	// {
-	// 	return ft::make_pair(lower_bound(val), upper_bound(val));
-	// }
-
-	// ft::pair<const_iterator, const_iterator>	equal_range(const value_type& val) const
-	// {
-	// 	return ft::make_pair(lower_bound(val), upper_bound(val));
-	// }
-
 
 private:
 	void	initNilRoot()
