@@ -213,15 +213,15 @@ namespace ft
 /**
  * EQUAL_RANGE
  */
-		ft::pair<const_iterator,const_iterator>	equal_range(const key_type& k) const
+		pair<const_iterator,const_iterator>	equal_range(const key_type& k) const
 		{
-			ft::pair<key_type, mapped_type>	p = ft::make_pair(k, mapped_type());
-			return ft::make_pair(this->_tree.lower_bound(p), this->_tree.upper_bound(p));
+			pair<key_type, mapped_type>	p = make_pair(k, mapped_type());
+			return make_pair(this->_tree.lower_bound(p), this->_tree.upper_bound(p));
 		}
-		ft::pair<iterator,iterator>				equal_range(const key_type& k)
+		pair<iterator,iterator>				equal_range(const key_type& k)
 		{
-			ft::pair<key_type, mapped_type>	p = ft::make_pair(k, mapped_type());
-			return ft::make_pair(this->_tree.lower_bound(p), this->_tree.upper_bound(p));
+			pair<key_type, mapped_type>	p = make_pair(k, mapped_type());
+			return make_pair(this->_tree.lower_bound(p), this->_tree.upper_bound(p));
 		}
 
 // ALLOCATOR
