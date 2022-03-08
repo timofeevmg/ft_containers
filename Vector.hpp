@@ -317,13 +317,13 @@ namespace ft
 		iterator	erase (iterator position)
 		{
 			size_type	dist = static_cast<size_type>(position - this->begin());
-			A.destroy(this->_begin + dist);
-			for (size_type i = dist; i < this->_size; ++i)
+			for (size_type i = dist; i < this->_size - 1; ++i)
 			{
+				A.destroy(this->_begin + i);
 				A.construct(this->_begin + i, *(this->_begin + i + 1));
-				A.destroy(this->_begin + i + 1);
 			}
 			--this->_size;
+			A.destroy(this->_begin + _size - 1);
 			return iterator(this->_begin + dist);
 		}
 
@@ -331,16 +331,24 @@ namespace ft
 		iterator	erase (iterator first, iterator last)
 		{
 			size_type	dist = static_cast<size_type>(first - this->begin());
-			size_type	range = static_cast<size_type>(last - first);
-			for (size_type	i = dist; i < range; ++i)
-				A.destroy(this->_begin + i);
-			for (size_type	i = dist; i < range; ++i)
-			{
-				A.construct(this->_begin + i, *(this->_begin + i + range));
-				A.destroy(this->_begin + i + range);
+			size_type	copy_range = static_cast<size_type>(end() - last);
+			bool last_is_end = (last == end());
+			while (first != last){
+				A.destroy(&(*first));
+				first++;
 			}
-			this->_size -= range;
-			return iterator(this->_begin + dist);
+			size_type i = dist;
+			while (last < end()){
+				if (this->_begin + dist)
+					A.destroy(_begin + i);
+				A.construct(_begin + i, *last);
+				i++;
+				last++;
+			}
+			for (size_type i = dist + copy_range; i < _size; i++)
+				A.destroy(_begin + i);
+			_size = dist + copy_range;
+			return last_is_end ? end() : iterator(_begin + dist);
 		}
 
 // SWAP
