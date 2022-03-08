@@ -149,7 +149,8 @@ public:
 			return ft::pair<iterator, bool>(iterator(existNode), false);
 		
 		nodePtr	newNode = _nodeA.allocate(1);
-		_nodeA.construct(newNode, ft::Node<value_type>(createValue(val)));
+		_nodeA.construct(newNode, ft::Node<value_type>());
+		newNode->value = createValue(val);
 		newNode->left = _nil;
 		newNode->right = _nil;
 		insertNode(newNode);
@@ -178,7 +179,6 @@ public:
 	void		erase(iterator position)
 	{
 		nodePtr	_free = position.base();
-		freeNode(_free);
 		deleteNode(_free);
 		--_size;
 		if (!this->empty())
@@ -190,8 +190,10 @@ public:
 	size_type	erase(const value_type& val)
 	{
 		nodePtr	n = searchNode(val);
-		if (n->isNIL)
+		if (!n || n->isNIL)
+		{
 			return 0;
+		}
 		this->erase(iterator(n));
 		return 1;
 	}
@@ -200,8 +202,8 @@ public:
 		void		erase(InputIterator first, InputIterator last, 
 							typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
 		{
-			for (; first != last; ++first)
-				this->erase(first);
+			while(first != last)
+				this->erase(first++);
 		}
 
 /**
@@ -358,7 +360,7 @@ private:
 	{
 		if (x != nullptr)
 		{
-			while (x->left != _nil)
+			while (!x->left->isNIL)
 				x = x->left;
 		}
 		return x;
@@ -618,6 +620,7 @@ private:
 			y->left->parent = y;
 			y->color = Node->color;
 		}
+		freeNode(Node);
 		if (orig_color == BLACK)
 			deleteFix(x);
 	}

@@ -203,6 +203,27 @@ namespace ft
 			value(val), left(nullptr), right(nullptr), parent(nullptr), color(RED), isNIL(false) {}
 
 		~Node() {}
+
+		Node(const Node& other)
+		{
+			this->color = other.color;
+			this->value = other.value;
+			this->parent = other.parent;
+			this->isNIL = other.isNIL;
+			this->right = other.right;
+			this->left = other.left;
+		}
+
+		Node&	operator=(const Node& other)
+		{
+			this->color = other.color;
+			this->value = other.value;
+			this->isNIL = other.isNIL;
+			this->parent = other.parent;
+			this->right = other.right;
+			this->left = other.left;
+			return *this;
+		}
 	};
 
 	template <typename T>
