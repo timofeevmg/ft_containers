@@ -13,7 +13,7 @@ namespace ft
 			typedef typename Container::size_type	size_type;
 			typedef Container						container_type;
 
-		private:
+		protected:
 			container_type	cont;
 
 		public:

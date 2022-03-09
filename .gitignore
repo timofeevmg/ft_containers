@@ -4,15 +4,10 @@ unit_test
 unit_test_2
 .vscode
 vtest
-my_main
-my_main.dSYM
+my_main*
 vtest
 vtest.dSYM
 test_vector
-rbt.cpp
-rbt
-rbt.dSYM
-rbt_main.cpp
 tree_test*
 map_main.cpp
 map_test*
