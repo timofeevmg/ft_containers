@@ -292,7 +292,7 @@ namespace ft
 			iterator	start = this->begin();
 			iterator	end = this->end();
 			size_type	i = 0;
-			for (; i < position - start; ++i)
+			for (; i < static_cast<size_t>(position - start); ++i)
 			{
 				A.construct(tmp + i, *(start + i));
 				A.destroy(this->_begin + i);
@@ -301,7 +301,7 @@ namespace ft
 			for (; j < length; ++j, ++first)
 				A.construct(tmp + i + j, *first);
 			i += j;
-			for (; i < end - position; ++i)
+			for (; i < static_cast<size_t>(end - position); ++i)
 			{
 				A.construct(tmp + i, *(start + i));
 				A.destroy(this->_begin + i - j);
